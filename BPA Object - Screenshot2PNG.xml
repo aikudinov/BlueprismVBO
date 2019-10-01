@@ -1,0 +1,242 @@
+﻿<process name="Screenshot2PNG" version="1.0" bpversion="6.2.1.4272" narrative="" byrefcollection="true" type="object" runmode="Background" preferredid="6a2f375a-9825-4f4a-ac23-9c656d00a1b1">
+  <appdef>
+    <element name="Application Root">
+      <id>fb63e9b5-8a70-4fe2-871d-157f431ebafd</id>
+      <type>Application</type>
+      <basetype>Application</basetype>
+      <datatype>unknown</datatype>
+      <diagnose>False</diagnose>
+    </element>
+  </appdef>
+  <view>
+    <camerax>0</camerax>
+    <cameray>-10</cameray>
+    <zoom version="2">1.25</zoom>
+  </view>
+  <preconditions />
+  <endpoint narrative="" />
+  <subsheet subsheetid="466afe80-6b26-44d8-a80a-5f72197542e7" type="CleanUp" published="True">
+    <name>Clean Up</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>0</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="9a490e99-5f4c-4623-bf73-00d47d7fcaa9" type="Normal" published="True">
+    <name>TakeScreenshot</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>0</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <stage stageid="b2a67e60-a53e-401c-9476-a14b26b359c7" name="Start" type="Start">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>15</displayx>
+    <displayy>-105</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <onsuccess>4307290b-fdee-489f-a444-2129b7ca67df</onsuccess>
+  </stage>
+  <stage stageid="4307290b-fdee-489f-a444-2129b7ca67df" name="End" type="End">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>15</displayx>
+    <displayy>90</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+  </stage>
+  <stage stageid="7a5015b5-07f0-40f4-9eb8-5ab1d1b03955" name="Stage1" type="ProcessInfo">
+    <narrative>
+    </narrative>
+    <displayx>-195</displayx>
+    <displayy>-105</displayy>
+    <displaywidth>150</displaywidth>
+    <displayheight>90</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <references>
+      <reference>System.Drawing.dll</reference>
+      <reference>System.Windows.Forms.dll</reference>
+    </references>
+    <imports>
+      <import>System</import>
+      <import>System.Drawing</import>
+      <import>System.Windows.Forms</import>
+    </imports>
+    <language>csharp</language>
+    <globalcode><![CDATA[]]></globalcode>
+    <code><![CDATA[]]></code>
+  </stage>
+  <stage stageid="87f740eb-72a2-4ef4-8532-782e489de8f7" name="Clean Up" type="SubSheetInfo">
+    <subsheetid>466afe80-6b26-44d8-a80a-5f72197542e7</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>-195</displayx>
+    <displayy>-105</displayy>
+    <displaywidth>150</displaywidth>
+    <displayheight>90</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+  </stage>
+  <stage stageid="234e8cb4-7b08-4e93-9455-2ab3e1af2973" name="Start" type="Start">
+    <subsheetid>466afe80-6b26-44d8-a80a-5f72197542e7</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>15</displayx>
+    <displayy>-105</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <onsuccess>ee9e091d-034c-44bb-9757-64ecb2bdea4d</onsuccess>
+  </stage>
+  <stage stageid="ee9e091d-034c-44bb-9757-64ecb2bdea4d" name="End" type="End">
+    <subsheetid>466afe80-6b26-44d8-a80a-5f72197542e7</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>15</displayx>
+    <displayy>90</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+  </stage>
+  <stage stageid="544ef8a8-c7fa-44e1-bec3-69ccb510bf7f" name="Note1" type="Note">
+    <subsheetid>466afe80-6b26-44d8-a80a-5f72197542e7</subsheetid>
+    <narrative>Clean Up Page
+
+This is an optional page where you might choose to perform some finalisation (or "cleanup") tasks as your business object is closed down.
+
+The cleanup action will be called automatically immediately after closing your business object at the end of a business process.
+
+You will not be able to call this action from a business process, nor will it be called at any other time than before the disposal of the business object.</narrative>
+    <displayx>-180</displayx>
+    <displayy>60</displayy>
+    <displaywidth>180</displaywidth>
+    <displayheight>230</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+  </stage>
+  <stage stageid="c7c29ea2-3b16-45f6-885c-489edbf88d20" name="Note2" type="Note">
+    <narrative>Initialise Page
+
+This is an optional page where you might choose to perform some initialisation tasks after your business object is loaded.
+
+The initialise action will be called automatically immediately after loading your business object.
+
+You will not be able to call this action from a business process, nor will it be called at any other time than after the creation of the object.</narrative>
+    <displayx>-180</displayx>
+    <displayy>60</displayy>
+    <displaywidth>180</displaywidth>
+    <displayheight>230</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+  </stage>
+  <stage stageid="0e3a4403-a714-4680-b86e-08c236637c65" name="TakeScreenshot" type="SubSheetInfo">
+    <subsheetid>9a490e99-5f4c-4623-bf73-00d47d7fcaa9</subsheetid>
+    <narrative>Takes screenshot, saves png file</narrative>
+    <displayx>-195</displayx>
+    <displayy>-105</displayy>
+    <displaywidth>150</displaywidth>
+    <displayheight>90</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+  </stage>
+  <stage stageid="e5ad0a7f-f277-4cc0-9afd-7e9415c3008d" name="Start" type="Start">
+    <subsheetid>9a490e99-5f4c-4623-bf73-00d47d7fcaa9</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>15</displayx>
+    <displayy>-75</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="file" stage="png_path" />
+    </inputs>
+    <onsuccess>18c47ab2-66ce-4f1a-89df-181e755fe3c0</onsuccess>
+  </stage>
+  <stage stageid="ea46fed1-91b8-43b7-b20a-ac08909dc201" name="End" type="End">
+    <subsheetid>9a490e99-5f4c-4623-bf73-00d47d7fcaa9</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>15</displayx>
+    <displayy>45</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+  </stage>
+  <stage stageid="18c47ab2-66ce-4f1a-89df-181e755fe3c0" name="Screenshot" type="Code">
+    <subsheetid>9a490e99-5f4c-4623-bf73-00d47d7fcaa9</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>15</displayx>
+    <displayy>-15</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="png_path" expr="[png_path]" />
+    </inputs>
+    <onsuccess>ea46fed1-91b8-43b7-b20a-ac08909dc201</onsuccess>
+    <code><![CDATA[Bitmap memoryImage = new Bitmap(Screen.PrimaryScreen.Bounds.Width,Screen.PrimaryScreen.Bounds.Height);
+Size s = new Size(memoryImage.Width, memoryImage.Height);
+
+Graphics memoryGraphics = Graphics.FromImage(memoryImage);
+memoryGraphics.CopyFromScreen(0,0,0,0,s);
+
+memoryImage.Save(png_path);]]></code>
+  </stage>
+  <stage stageid="5b723ef6-c10f-4e01-a0e6-60e778de0bd6" name="png_path" type="Data">
+    <subsheetid>9a490e99-5f4c-4623-bf73-00d47d7fcaa9</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>90</displayx>
+    <displayy>-75</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="1cd87f62-df76-4f2e-a040-6cb7ffb1de75" name="Block1" type="Block">
+    <subsheetid>9a490e99-5f4c-4623-bf73-00d47d7fcaa9</subsheetid>
+    <loginhibit />
+    <narrative>There shouldn't be any errors, except wrong path.</narrative>
+    <displayx>-30</displayx>
+    <displayy>-45</displayy>
+    <displaywidth>180</displaywidth>
+    <displayheight>60</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="75d2cf65-7a6d-4ba3-8e80-1ad371a49900" name="Exception" type="Recover">
+    <subsheetid>9a490e99-5f4c-4623-bf73-00d47d7fcaa9</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>105</displayx>
+    <displayy>-15</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <onsuccess>8017223f-db77-43bb-9922-ffebb2b163dc</onsuccess>
+  </stage>
+  <stage stageid="8017223f-db77-43bb-9922-ffebb2b163dc" name="pass" type="Resume">
+    <subsheetid>9a490e99-5f4c-4623-bf73-00d47d7fcaa9</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>105</displayx>
+    <displayy>45</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <onsuccess>ea46fed1-91b8-43b7-b20a-ac08909dc201</onsuccess>
+  </stage>
+</process>

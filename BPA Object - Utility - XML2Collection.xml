@@ -1,0 +1,1442 @@
+﻿<process name="Utility - XML2Collection" version="1.0" bpversion="6.2.1.4272" narrative="There can be multiple nested DataTables in XML, in that case GetDataSet will return them all." byrefcollection="true" type="object" runmode="Background" preferredid="0fa5944e-a654-4b62-9cf2-1c656de14bed">
+  <appdef>
+    <element name="Application Root">
+      <id>bf145364-6e37-4aa2-b474-e4c4e0e8ae6e</id>
+      <type>Application</type>
+      <basetype>Application</basetype>
+      <datatype>unknown</datatype>
+      <diagnose>False</diagnose>
+    </element>
+  </appdef>
+  <view>
+    <camerax>0</camerax>
+    <cameray>0</cameray>
+    <zoom version="2">1.25</zoom>
+  </view>
+  <preconditions />
+  <endpoint narrative="" />
+  <subsheet subsheetid="80f6917a-0130-44c3-9e26-e731a0e54b21" type="CleanUp" published="True">
+    <name>Clean Up</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>0</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="1811631e-caf8-4ae6-aa27-18da3c6d891e" type="Normal" published="True">
+    <name>Read DataSet from XML String (no Schema)</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>0</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="ddf331d9-2da1-4c2a-90ba-fdb708149579" type="Normal" published="True">
+    <name>Read DataSet from XML string (with Schema)</name>
+    <view>
+      <camerax>182</camerax>
+      <cameray>-27</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="a65fc7d7-7e2a-4e14-9cf7-fd44d4621fb7" type="Normal" published="True">
+    <name>Read DataTable from XML String (no Schema)</name>
+    <view>
+      <camerax>53</camerax>
+      <cameray>0</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="8744a495-438f-43fb-9436-35ad1a2794b2" type="Normal" published="True">
+    <name>Read DataTable from XML String (with Schema)</name>
+    <view>
+      <camerax>53</camerax>
+      <cameray>0</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="26b3b773-3957-450d-9aae-346880f3300c" type="Normal" published="True">
+    <name>Read DataTable from XML file (with Schema)</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>-27</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="464afe19-04b8-4cf9-97ce-37089f7ed89c" type="Normal" published="True">
+    <name>Write DataTable to XML file</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>-27</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="ad53434c-fb4e-4ff2-945a-75fe33e5ce92" type="Normal" published="False">
+    <name>Tests</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>-27</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <stage stageid="a19cb5e0-2f5a-437b-96f9-cf046d8390c5" name="Start" type="Start">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>15</displayx>
+    <displayy>-105</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <onsuccess>98252a38-afd4-410f-9105-85b8d5754cca</onsuccess>
+  </stage>
+  <stage stageid="98252a38-afd4-410f-9105-85b8d5754cca" name="End" type="End">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>15</displayx>
+    <displayy>90</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+  </stage>
+  <stage stageid="db9dd53d-234f-49ec-a86f-f255b8c94701" name="Stage1" type="ProcessInfo">
+    <narrative>
+    </narrative>
+    <displayx>-195</displayx>
+    <displayy>-105</displayy>
+    <displaywidth>150</displaywidth>
+    <displayheight>90</displayheight>
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <references>
+      <reference>System.Data.dll</reference>
+      <reference>System.Xml.dll</reference>
+      <reference>System.dll</reference>
+      <reference>System.Data.DataSetExtensions.dll</reference>
+    </references>
+    <imports>
+      <import>System</import>
+      <import>System.IO</import>
+      <import>System.Xml</import>
+      <import>System.Data</import>
+      <import>System.Text</import>
+    </imports>
+    <language>csharp</language>
+    <globalcode><![CDATA[
+
+]]></globalcode>
+    <code><![CDATA[]]></code>
+  </stage>
+  <stage stageid="ee3ef258-b041-4d2e-a0c3-f15d164668cd" name="Clean Up" type="SubSheetInfo">
+    <subsheetid>80f6917a-0130-44c3-9e26-e731a0e54b21</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>-195</displayx>
+    <displayy>-105</displayy>
+    <displaywidth>150</displaywidth>
+    <displayheight>90</displayheight>
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+  </stage>
+  <stage stageid="0697db0a-2430-49ab-9843-c62cca14fbcb" name="Start" type="Start">
+    <subsheetid>80f6917a-0130-44c3-9e26-e731a0e54b21</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-15</displayx>
+    <displayy>-120</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <onsuccess>9ecc9bf8-7a5f-4952-866e-848454771484</onsuccess>
+  </stage>
+  <stage stageid="9be9d134-83ed-48c5-b854-866da172fb02" name="End" type="End">
+    <subsheetid>80f6917a-0130-44c3-9e26-e731a0e54b21</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-15</displayx>
+    <displayy>60</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+  </stage>
+  <stage stageid="9b3a98d6-f06b-4392-abde-64afae690ba5" name="new" type="Note">
+    <subsheetid>80f6917a-0130-44c3-9e26-e731a0e54b21</subsheetid>
+    <narrative>Clean Up Page
+
+This is an optional page where you might choose to perform some finalisation (or "cleanup") tasks as your business object is closed down.
+
+The cleanup action will be called automatically immediately after closing your business object at the end of a business process.
+
+You will not be able to call this action from a business process, nor will it be called at any other time than before the disposal of the business object.</narrative>
+    <displayx>-180</displayx>
+    <displayy>60</displayy>
+    <displaywidth>180</displaywidth>
+    <displayheight>230</displayheight>
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+  </stage>
+  <stage stageid="a5f93986-f40d-489e-9ba1-fd08a9cbd377" name="new" type="Note">
+    <narrative>Initialise Page
+
+This is an optional page where you might choose to perform some initialisation tasks after your business object is loaded.
+
+The initialise action will be called automatically immediately after loading your business object.
+
+You will not be able to call this action from a business process, nor will it be called at any other time than after the creation of the object.</narrative>
+    <displayx>-180</displayx>
+    <displayy>60</displayy>
+    <displaywidth>180</displaywidth>
+    <displayheight>230</displayheight>
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+  </stage>
+  <stage stageid="4535b32e-b1aa-4573-a57e-2b95bf923771" name="Read DataTable from XML String (no Schema)" type="SubSheetInfo">
+    <subsheetid>a65fc7d7-7e2a-4e14-9cf7-fd44d4621fb7</subsheetid>
+    <narrative>Get DataTable by Name or Index, first one if both are empty.</narrative>
+    <displayx>-195</displayx>
+    <displayy>-105</displayy>
+    <displaywidth>150</displaywidth>
+    <displayheight>90</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+  </stage>
+  <stage stageid="99c84e86-9d43-4673-960e-ea87cc0bd268" name="Start" type="Start">
+    <subsheetid>a65fc7d7-7e2a-4e14-9cf7-fd44d4621fb7</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-45</displayx>
+    <displayy>-135</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="XML" narrative="XML String" stage="XML" />
+      <input type="text" name="TableName" narrative="Table name to get" stage="TableName" />
+      <input type="number" name="TableIndex" narrative="Table index to get if TableName is empty. Default is 0" stage="TableIndex" />
+    </inputs>
+    <onsuccess>7a57a1f2-478f-4553-b49a-8a719f5b3d18</onsuccess>
+  </stage>
+  <stage stageid="96cc486e-e5a3-4d25-9105-167f73ebbd37" name="End" type="End">
+    <subsheetid>a65fc7d7-7e2a-4e14-9cf7-fd44d4621fb7</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-45</displayx>
+    <displayy>-45</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <outputs>
+      <output type="collection" name="XMLDataTable" narrative="Result as DataTable" stage="dt" />
+      <output type="flag" name="hasDataTable" narrative="Returns False if DataTable not found" stage="hasDataTable" />
+    </outputs>
+  </stage>
+  <stage stageid="7a57a1f2-478f-4553-b49a-8a719f5b3d18" name="XMLGetDataTable" type="Code">
+    <subsheetid>a65fc7d7-7e2a-4e14-9cf7-fd44d4621fb7</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-45</displayx>
+    <displayy>-90</displayy>
+    <displaywidth>90</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="xml" expr="[XML]" />
+      <input type="text" name="TableName" expr="[TableName]" />
+      <input type="number" name="TableIndex" expr="[TableIndex]" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="XMLDataTable" stage="dt" />
+      <output type="flag" name="hasDataTable" stage="hasDataTable" />
+    </outputs>
+    <onsuccess>96cc486e-e5a3-4d25-9105-167f73ebbd37</onsuccess>
+    <code><![CDATA[DataSet ds = new DataSet();
+ds.ReadXml(new StringReader(xml));
+
+if (TableName == "" && (int)TableIndex < ds.Tables.Count && (int)TableIndex >=0){
+	hasDataTable = true;
+	XMLDataTable = ds.Tables[(int)TableIndex];
+} 
+else if (ds.Tables[TableName] != null) {
+	hasDataTable = true;
+	XMLDataTable = ds.Tables[TableName];
+} 
+else {
+	hasDataTable = false;
+	XMLDataTable = new DataTable();
+}]]></code>
+  </stage>
+  <stage stageid="9a8efa3d-4217-47c2-b38c-716e817eb830" name="TableName" type="Data">
+    <subsheetid>a65fc7d7-7e2a-4e14-9cf7-fd44d4621fb7</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>45</displayx>
+    <displayy>-135</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="c3a30cf7-4de9-40bc-8d7d-42a63a49953f" name="TableIndex" type="Data">
+    <subsheetid>a65fc7d7-7e2a-4e14-9cf7-fd44d4621fb7</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>105</displayx>
+    <displayy>-135</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>number</datatype>
+    <initialvalue>0</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="ac79f7c5-2614-4065-aa66-05b720d9e87e" name="Read DataSet from XML String (no Schema)" type="SubSheetInfo">
+    <subsheetid>1811631e-caf8-4ae6-aa27-18da3c6d891e</subsheetid>
+    <narrative>Get all DataTables present in XML.</narrative>
+    <displayx>-195</displayx>
+    <displayy>-105</displayy>
+    <displaywidth>150</displaywidth>
+    <displayheight>90</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+  </stage>
+  <stage stageid="1c3709dd-3140-4892-865a-31053798bd56" name="Start" type="Start">
+    <subsheetid>1811631e-caf8-4ae6-aa27-18da3c6d891e</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-45</displayx>
+    <displayy>-135</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="XML" narrative="XML string" stage="XML" />
+      <input type="flag" name="withDataTables" narrative="Return DataTables in a separate column. Default is True." stage="withDataTables" />
+    </inputs>
+    <onsuccess>db9c899c-3944-4c8a-b3a6-536a341f3e38</onsuccess>
+  </stage>
+  <stage stageid="5d80de85-4ba0-4954-b4bf-1135df0f1980" name="End" type="End">
+    <subsheetid>1811631e-caf8-4ae6-aa27-18da3c6d891e</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-45</displayx>
+    <displayy>-45</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <outputs>
+      <output type="collection" name="XMLDataSet" narrative="Result as Collection of all DataTables present in XML" stage="dt" />
+    </outputs>
+  </stage>
+  <stage stageid="db9c899c-3944-4c8a-b3a6-536a341f3e38" name="XMLGetDataSet" type="Code">
+    <subsheetid>1811631e-caf8-4ae6-aa27-18da3c6d891e</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-45</displayx>
+    <displayy>-90</displayy>
+    <displaywidth>90</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="xml" expr="[XML]" />
+      <input type="flag" name="withDataTables" expr="[withDataTables]" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="XMLDataSet" stage="dt" />
+    </outputs>
+    <onsuccess>5d80de85-4ba0-4954-b4bf-1135df0f1980</onsuccess>
+    <code><![CDATA[DataSet ds = new DataSet();
+ds.ReadXml(new StringReader(xml));
+
+XMLDataSet = new DataTable();
+XMLDataSet.Columns.Add("ID", typeof(decimal));
+XMLDataSet.Columns.Add("Name", typeof(string));
+if (withDataTables) 
+	XMLDataSet.Columns.Add("Table", typeof(DataTable));
+
+foreach(DataTable table in ds.Tables)
+{
+	DataRow dr = XMLDataSet.NewRow();
+	dr["ID"] = ds.Tables.IndexOf(table);
+	dr["Name"] = table.TableName;
+	if (withDataTables) 
+		dr["Table"] = table;
+	XMLDataSet.Rows.Add(dr);
+}
+]]></code>
+  </stage>
+  <stage stageid="bee55493-c1b3-4589-b9e4-8f95936a0594" name="hasDataTable" type="Data">
+    <subsheetid>a65fc7d7-7e2a-4e14-9cf7-fd44d4621fb7</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>45</displayx>
+    <displayy>-90</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>flag</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="d46ace64-5741-469b-adc7-41701bde5e58" name="withDataTables" type="Data">
+    <subsheetid>1811631e-caf8-4ae6-aa27-18da3c6d891e</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>45</displayx>
+    <displayy>-135</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>flag</datatype>
+    <initialvalue>True</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="4c0eef2f-42a0-4fa0-9a12-7d5acff59390" name="dt" type="Collection">
+    <subsheetid>80f6917a-0130-44c3-9e26-e731a0e54b21</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>75</displayx>
+    <displayy>-30</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>collection</datatype>
+    <alwaysinit />
+  </stage>
+  <stage stageid="9b8d0669-2a36-4ec5-b7fc-b979c5ecb3c9" name="XML" type="Data">
+    <subsheetid>80f6917a-0130-44c3-9e26-e731a0e54b21</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>75</displayx>
+    <displayy>-75</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <alwaysinit />
+  </stage>
+  <stage stageid="9ecc9bf8-7a5f-4952-866e-848454771484" name="Clean up" type="MultipleCalculation">
+    <subsheetid>80f6917a-0130-44c3-9e26-e731a0e54b21</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-15</displayx>
+    <displayy>-75</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <onsuccess>ab263a28-55a2-4236-b5d7-ed4b3df8fee5</onsuccess>
+    <steps>
+      <calculation expression="&quot;&quot;" stage="XML" />
+    </steps>
+  </stage>
+  <stage stageid="72bb7287-dbbe-4e15-b832-5316fe792eac" name="RunGC" type="Code">
+    <subsheetid>80f6917a-0130-44c3-9e26-e731a0e54b21</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-15</displayx>
+    <displayy>15</displayy>
+    <displaywidth>90</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <onsuccess>9be9d134-83ed-48c5-b854-866da172fb02</onsuccess>
+    <code><![CDATA[System.Runtime.GCSettings.LargeObjectHeapCompactionMode = System.Runtime.GCLargeObjectHeapCompactionMode.CompactOnce;
+GC.Collect();]]></code>
+  </stage>
+  <stage stageid="ab263a28-55a2-4236-b5d7-ed4b3df8fee5" name="EmptyCollection" type="Code">
+    <subsheetid>80f6917a-0130-44c3-9e26-e731a0e54b21</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-15</displayx>
+    <displayy>-30</displayy>
+    <displaywidth>90</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <outputs>
+      <output type="collection" name="empty" stage="dt" />
+    </outputs>
+    <onsuccess>72bb7287-dbbe-4e15-b832-5316fe792eac</onsuccess>
+    <code><![CDATA[empty = new DataTable();]]></code>
+  </stage>
+  <stage stageid="90886d60-bcc0-4af4-879b-2760eca52bcc" name="Write DataTable to XML file" type="SubSheetInfo">
+    <subsheetid>464afe19-04b8-4cf9-97ce-37089f7ed89c</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>-225</displayx>
+    <displayy>-105</displayy>
+    <displaywidth>150</displaywidth>
+    <displayheight>90</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+  </stage>
+  <stage stageid="0d362f25-1887-4de6-8c01-f93fb1bc71e3" name="Start" type="Start">
+    <subsheetid>464afe19-04b8-4cf9-97ce-37089f7ed89c</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-60</displayx>
+    <displayy>-135</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="collection" name="DataTable" narrative="Collection to write" stage="dt" />
+      <input type="text" name="path" narrative="XML file path" stage="path" />
+      <input type="flag" name="ignoreSchema" narrative="Don't export inline Schema. You can't reimport it back as DataTable if set to True. Default is False" stage="ignoreSchema" />
+    </inputs>
+    <onsuccess>f37436cc-5bf3-4ec9-84c0-36a0be80b922</onsuccess>
+  </stage>
+  <stage stageid="05ec7d0f-b75e-4e63-b77f-2d2894354509" name="End" type="End">
+    <subsheetid>464afe19-04b8-4cf9-97ce-37089f7ed89c</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-60</displayx>
+    <displayy>30</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <outputs>
+      <output type="flag" name="Success" stage="Success" />
+      <output type="text" name="Exception" stage="Exception" />
+    </outputs>
+  </stage>
+  <stage stageid="f37436cc-5bf3-4ec9-84c0-36a0be80b922" name="WriteXML" type="Code">
+    <subsheetid>464afe19-04b8-4cf9-97ce-37089f7ed89c</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-60</displayx>
+    <displayy>-75</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="collection" name="dt" expr="[dt]" />
+      <input type="text" name="path" expr="[path]" />
+      <input type="flag" name="ignoreSchema" expr="[ignoreSchema]" />
+    </inputs>
+    <onsuccess>c4b0c827-5c74-4518-a704-763a6ac13a4f</onsuccess>
+    <code><![CDATA[if (ignoreSchema)
+	dt.WriteXml(path,XmlWriteMode.IgnoreSchema);
+else
+	dt.WriteXml(path,XmlWriteMode.WriteSchema);
+	]]></code>
+  </stage>
+  <stage stageid="ce633339-e173-44af-8309-33a8841cef19" name="path" type="Data">
+    <subsheetid>464afe19-04b8-4cf9-97ce-37089f7ed89c</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>30</displayx>
+    <displayy>-135</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="cc8b5a31-3bc5-4b47-8988-7fa9a22aeb7d" name="Read DataTable from XML file (with Schema)" type="SubSheetInfo">
+    <subsheetid>26b3b773-3957-450d-9aae-346880f3300c</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>-195</displayx>
+    <displayy>-105</displayy>
+    <displaywidth>150</displaywidth>
+    <displayheight>90</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+  </stage>
+  <stage stageid="61b533a7-a18e-4636-99c4-84f49483379e" name="Start" type="Start">
+    <subsheetid>26b3b773-3957-450d-9aae-346880f3300c</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-45</displayx>
+    <displayy>-135</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="path" narrative="XML file path" stage="path" />
+    </inputs>
+    <onsuccess>b3522404-714f-4075-b76d-7ecc29a67a35</onsuccess>
+  </stage>
+  <stage stageid="ff854847-4aa4-4dab-8c1e-02b0647594fb" name="End" type="End">
+    <subsheetid>26b3b773-3957-450d-9aae-346880f3300c</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-45</displayx>
+    <displayy>30</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <outputs>
+      <output type="collection" name="DataTable" stage="dt" />
+      <output type="flag" name="Success" stage="Success" />
+      <output type="text" name="Exception" stage="Exception" />
+    </outputs>
+  </stage>
+  <stage stageid="b3522404-714f-4075-b76d-7ecc29a67a35" name="ReadXML" type="Code">
+    <subsheetid>26b3b773-3957-450d-9aae-346880f3300c</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-45</displayx>
+    <displayy>-75</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="path" expr="[path]" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="dt" stage="dt" />
+    </outputs>
+    <onsuccess>ec211d46-5111-4bb8-9ca6-cda3745953d6</onsuccess>
+    <code><![CDATA[dt = new DataTable();
+dt.ReadXml(path);]]></code>
+  </stage>
+  <stage stageid="e0929e42-a14f-4787-b909-66d8ff597ca2" name="ignoreSchema" type="Data">
+    <subsheetid>464afe19-04b8-4cf9-97ce-37089f7ed89c</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>90</displayx>
+    <displayy>-135</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>flag</datatype>
+    <initialvalue>False</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="330fd9dd-ba66-4b27-988a-1607d2acbe54" name="Export DT to XML file" type="SubSheetInfo">
+    <subsheetid>ad53434c-fb4e-4ff2-945a-75fe33e5ce92</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>-195</displayx>
+    <displayy>-105</displayy>
+    <displaywidth>150</displaywidth>
+    <displayheight>90</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+  </stage>
+  <stage stageid="14bec458-7f02-4316-8fb1-e88f110e0a54" name="Start" type="Start">
+    <subsheetid>ad53434c-fb4e-4ff2-945a-75fe33e5ce92</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-45</displayx>
+    <displayy>-135</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <onsuccess>51e7273c-f664-4dce-bdcb-d6d8c9c5473e</onsuccess>
+  </stage>
+  <stage stageid="12a05329-e7db-4a92-bd09-73517eb3d385" name="End" type="End">
+    <subsheetid>ad53434c-fb4e-4ff2-945a-75fe33e5ce92</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-45</displayx>
+    <displayy>135</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+  </stage>
+  <stage stageid="2b67af74-9645-4855-841a-b53b31c2bd00" name="dt11" type="Collection">
+    <subsheetid>ad53434c-fb4e-4ff2-945a-75fe33e5ce92</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>30</displayx>
+    <displayy>15</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+    <collectioninfo>
+      <field name="123" type="number" namespace="" />
+      <field name="asd" type="text" namespace="" />
+      <field name="xcc123" type="flag" namespace="" />
+      <field name="Field1" type="collection" namespace="">
+        <field name="Field1" type="date" namespace="" description="31.01.2019" />
+        <field name="Field2" type="text" namespace="" description="1231231231" />
+      </field>
+    </collectioninfo>
+    <initialvalue>
+      <row>
+        <field name="123" type="number" value="111" />
+        <field name="asd" type="text" value="asdfsdgdbvxcbvdfg" />
+        <field name="xcc123" type="flag" value="True" />
+        <field name="Field1" type="collection" value="&lt;collection /&gt;" />
+      </row>
+      <row>
+        <field name="123" type="number" value="222" />
+        <field name="asd" type="text" value="dfgdgc" />
+        <field name="xcc123" type="flag" value="False" />
+        <field name="Field1" type="collection" value="&lt;collection /&gt;" />
+      </row>
+      <row>
+        <field name="123" type="number" value="333" />
+        <field name="asd" type="text" value="xvxvxv" />
+        <field name="xcc123" type="flag" value="True" />
+        <field name="Field1" type="collection" value="&lt;collection /&gt;" />
+      </row>
+    </initialvalue>
+  </stage>
+  <stage stageid="933e6620-2c9a-47d8-898b-705ba8dae349" name="path" type="Data">
+    <subsheetid>ad53434c-fb4e-4ff2-945a-75fe33e5ce92</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>90</displayx>
+    <displayy>15</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">X:\vbotest.xml</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="b9abcfa3-e5cf-4fdb-9a8d-af9ca0bfd6d8" name="dt12" type="Collection">
+    <subsheetid>ad53434c-fb4e-4ff2-945a-75fe33e5ce92</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>30</displayx>
+    <displayy>90</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="647dfcdd-8d45-4950-8e21-36427b7e9d0d" name="Block1" type="Block">
+    <subsheetid>464afe19-04b8-4cf9-97ce-37089f7ed89c</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-105</displayx>
+    <displayy>-105</displayy>
+    <displaywidth>180</displaywidth>
+    <displayheight>60</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="94e1e210-6a56-413e-aacf-f8070baa139e" name="Get exception details" type="Recover">
+    <subsheetid>464afe19-04b8-4cf9-97ce-37089f7ed89c</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>30</displayx>
+    <displayy>-75</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <onsuccess>4258a2f9-3dcf-4b13-80bd-8403b99a337e</onsuccess>
+  </stage>
+  <stage stageid="d6904bf6-668d-47ad-a8c5-5200e335f8a8" name="Resume" type="Resume">
+    <subsheetid>464afe19-04b8-4cf9-97ce-37089f7ed89c</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>30</displayx>
+    <displayy>30</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <onsuccess>05ec7d0f-b75e-4e63-b77f-2d2894354509</onsuccess>
+  </stage>
+  <stage stageid="4258a2f9-3dcf-4b13-80bd-8403b99a337e" name="Exception" type="MultipleCalculation">
+    <subsheetid>464afe19-04b8-4cf9-97ce-37089f7ed89c</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>30</displayx>
+    <displayy>-15</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <onsuccess>d6904bf6-668d-47ad-a8c5-5200e335f8a8</onsuccess>
+    <steps>
+      <calculation expression="ExceptionDetail()" stage="Exception" />
+      <calculation expression="False" stage="Success" />
+    </steps>
+  </stage>
+  <stage stageid="8e75ff31-01ef-416b-92a1-ad5f2247fc3e" name="Success" type="Data">
+    <subsheetid>464afe19-04b8-4cf9-97ce-37089f7ed89c</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>105</displayx>
+    <displayy>30</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>flag</datatype>
+    <initialvalue>False</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="9c4b4a69-6296-4db5-aa18-077e651c2d78" name="Exception" type="Data">
+    <subsheetid>464afe19-04b8-4cf9-97ce-37089f7ed89c</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>165</displayx>
+    <displayy>30</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="c4b0c827-5c74-4518-a704-763a6ac13a4f" name="Success" type="MultipleCalculation">
+    <subsheetid>464afe19-04b8-4cf9-97ce-37089f7ed89c</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-60</displayx>
+    <displayy>-15</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <onsuccess>05ec7d0f-b75e-4e63-b77f-2d2894354509</onsuccess>
+    <steps>
+      <calculation expression="True" stage="Success" />
+    </steps>
+  </stage>
+  <stage stageid="d4923e4e-01c1-4098-a55f-f820b94f9291" name="path" type="Data">
+    <subsheetid>26b3b773-3957-450d-9aae-346880f3300c</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>45</displayx>
+    <displayy>-135</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="a783767d-c749-4e0f-81f7-664366e45f2c" name="Success" type="Data">
+    <subsheetid>26b3b773-3957-450d-9aae-346880f3300c</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>120</displayx>
+    <displayy>30</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>flag</datatype>
+    <initialvalue>False</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="bc366eb9-7c9a-44c1-83ff-9096a0293954" name="Exception" type="Data">
+    <subsheetid>26b3b773-3957-450d-9aae-346880f3300c</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>180</displayx>
+    <displayy>30</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="489c719e-e4fd-4ea4-8106-fbfd2e0eda32" name="Block1" type="Block">
+    <subsheetid>26b3b773-3957-450d-9aae-346880f3300c</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-90</displayx>
+    <displayy>-105</displayy>
+    <displaywidth>180</displaywidth>
+    <displayheight>60</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="a7b5c47f-cfc9-4d21-913d-ea74e0d543b2" name="Get exception details" type="Recover">
+    <subsheetid>26b3b773-3957-450d-9aae-346880f3300c</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>45</displayx>
+    <displayy>-75</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <onsuccess>f90a3f6b-de5e-488f-9549-ee6ad9ca2627</onsuccess>
+  </stage>
+  <stage stageid="b2db3689-734d-436e-904e-786b62882fd1" name="Resume" type="Resume">
+    <subsheetid>26b3b773-3957-450d-9aae-346880f3300c</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>45</displayx>
+    <displayy>30</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <onsuccess>ff854847-4aa4-4dab-8c1e-02b0647594fb</onsuccess>
+  </stage>
+  <stage stageid="f90a3f6b-de5e-488f-9549-ee6ad9ca2627" name="Exception" type="MultipleCalculation">
+    <subsheetid>26b3b773-3957-450d-9aae-346880f3300c</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>45</displayx>
+    <displayy>-15</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <onsuccess>b2db3689-734d-436e-904e-786b62882fd1</onsuccess>
+    <steps>
+      <calculation expression="ExceptionDetail()" stage="Exception" />
+      <calculation expression="False" stage="Success" />
+    </steps>
+  </stage>
+  <stage stageid="ec211d46-5111-4bb8-9ca6-cda3745953d6" name="Success" type="MultipleCalculation">
+    <subsheetid>26b3b773-3957-450d-9aae-346880f3300c</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-45</displayx>
+    <displayy>-15</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <onsuccess>ff854847-4aa4-4dab-8c1e-02b0647594fb</onsuccess>
+    <steps>
+      <calculation expression="True" stage="Success" />
+    </steps>
+  </stage>
+  <stage stageid="a150ca8c-8ecd-4c6e-b880-edbb9d571963" name="Write DataTable to XML file" type="SubSheet">
+    <subsheetid>ad53434c-fb4e-4ff2-945a-75fe33e5ce92</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-45</displayx>
+    <displayy>45</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="collection" name="DataTable" narrative="Collection to write" expr="[dt11]" />
+      <input type="text" name="path" narrative="XML file path" expr="[path]" />
+      <input type="flag" name="ignoreSchema" narrative="Don't export inline Schema. You can't reimport it back as DataTable if set to True. Default is False" expr="" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="Success" stage="Success" />
+      <output type="text" name="Exception" stage="Exception" />
+    </outputs>
+    <onsuccess>571a3719-377c-4fe7-ba6c-acdf53dbf6af</onsuccess>
+    <processid>464afe19-04b8-4cf9-97ce-37089f7ed89c</processid>
+  </stage>
+  <stage stageid="571a3719-377c-4fe7-ba6c-acdf53dbf6af" name="Read DataTable from XML file (with Schema)" type="SubSheet">
+    <subsheetid>ad53434c-fb4e-4ff2-945a-75fe33e5ce92</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-45</displayx>
+    <displayy>90</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="path" narrative="XML file path" expr="[path]" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="DataTable" stage="dt12" />
+      <output type="flag" name="Success" stage="Success" />
+      <output type="text" name="Exception" stage="Exception" />
+    </outputs>
+    <onsuccess>12a05329-e7db-4a92-bd09-73517eb3d385</onsuccess>
+    <processid>26b3b773-3957-450d-9aae-346880f3300c</processid>
+  </stage>
+  <stage stageid="51e7273c-f664-4dce-bdcb-d6d8c9c5473e" name="Read DataSet from XML String (no Schema)" type="SubSheet">
+    <subsheetid>ad53434c-fb4e-4ff2-945a-75fe33e5ce92</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-45</displayx>
+    <displayy>-90</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="XML" narrative="XML string" expr="[XML String ]" />
+      <input type="flag" name="withDataTables" narrative="Return DataTables in a separate column. Default is True." expr="" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="XMLDataSet" narrative="Result as Collection of all DataTables present in XML" stage="XMLDataSet" />
+    </outputs>
+    <onsuccess>a19bbd37-8c65-4397-8be1-ab05354d3da8</onsuccess>
+    <processid>1811631e-caf8-4ae6-aa27-18da3c6d891e</processid>
+  </stage>
+  <stage stageid="a19bbd37-8c65-4397-8be1-ab05354d3da8" name="Read DataTable from XML String (no Schema)" type="SubSheet">
+    <subsheetid>ad53434c-fb4e-4ff2-945a-75fe33e5ce92</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-45</displayx>
+    <displayy>-45</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="XML" narrative="XML String" expr="[XML String ]" />
+      <input type="text" name="TableName" narrative="Table name to get" expr="&quot;currency&quot;" />
+      <input type="number" name="TableIndex" narrative="Table index to get if TableName is empty. Default is 0" expr="" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="XMLDataTable" narrative="Result as DataTable" stage="XMLDataTable" />
+      <output type="flag" name="hasDataTable" narrative="Returns False if DataTable not found" stage="hasDataTable" />
+    </outputs>
+    <onsuccess>a460cc81-5c0c-4d12-be34-80648326d03b</onsuccess>
+    <processid>a65fc7d7-7e2a-4e14-9cf7-fd44d4621fb7</processid>
+  </stage>
+  <stage stageid="7ab021e2-52e9-4094-a087-d9716e541c5e" name="XML String " type="Data">
+    <subsheetid>ad53434c-fb4e-4ff2-945a-75fe33e5ce92</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>30</displayx>
+    <displayy>-90</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="98d11361-eac7-4400-9824-0635d33aad8e" name="Exception" type="Data">
+    <subsheetid>ad53434c-fb4e-4ff2-945a-75fe33e5ce92</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>90</displayx>
+    <displayy>135</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="46186270-8ea1-40e2-8a11-eba1ee9a917f" name="Success" type="Data">
+    <subsheetid>ad53434c-fb4e-4ff2-945a-75fe33e5ce92</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>30</displayx>
+    <displayy>135</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>flag</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="dc4a20ec-01ff-4c3b-9caa-6833349b5797" name="XMLDataSet" type="Collection">
+    <subsheetid>ad53434c-fb4e-4ff2-945a-75fe33e5ce92</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>105</displayx>
+    <displayy>-90</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="2e664932-1200-4c51-9e58-8834e87d517e" name="XMLDataTable" type="Collection">
+    <subsheetid>ad53434c-fb4e-4ff2-945a-75fe33e5ce92</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>105</displayx>
+    <displayy>-45</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="2223b997-51eb-4379-b8e0-8c42d25531e5" name="hasDataTable" type="Data">
+    <subsheetid>ad53434c-fb4e-4ff2-945a-75fe33e5ce92</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>165</displayx>
+    <displayy>-45</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>flag</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="a460cc81-5c0c-4d12-be34-80648326d03b" name="Write DataTable to XML file" type="SubSheet">
+    <subsheetid>ad53434c-fb4e-4ff2-945a-75fe33e5ce92</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-45</displayx>
+    <displayy>0</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="collection" name="DataTable" narrative="Collection to write" expr="[dt11]" />
+      <input type="text" name="path" narrative="XML file path" expr="[path]" />
+      <input type="flag" name="ignoreSchema" narrative="Don't export inline Schema. You can't reimport it back as DataTable if set to True. Default is False" expr="True" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="Success" stage="Success" />
+      <output type="text" name="Exception" stage="Exception" />
+    </outputs>
+    <onsuccess>a150ca8c-8ecd-4c6e-b880-edbb9d571963</onsuccess>
+    <processid>464afe19-04b8-4cf9-97ce-37089f7ed89c</processid>
+  </stage>
+  <stage stageid="0227ad02-8d73-460f-9153-14e315b8ab50" name="Read DataSet from XML string (with Schema)" type="SubSheetInfo">
+    <subsheetid>ddf331d9-2da1-4c2a-90ba-fdb708149579</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>-195</displayx>
+    <displayy>-105</displayy>
+    <displaywidth>150</displaywidth>
+    <displayheight>90</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+  </stage>
+  <stage stageid="58ae94fe-b42f-431e-95d2-e38325571483" name="Start" type="Start">
+    <subsheetid>ddf331d9-2da1-4c2a-90ba-fdb708149579</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-45</displayx>
+    <displayy>-135</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="xml" narrative="XML string" stage="xml" />
+      <input type="flag" name="withDataTables" narrative="Return DataTables in a separate column. Default is True." stage="withDataTables" />
+    </inputs>
+    <onsuccess>a386554c-9969-4e45-a25d-30ae79f3a7a7</onsuccess>
+  </stage>
+  <stage stageid="33e8ee35-509d-44fb-8ca5-107f4496c027" name="End" type="End">
+    <subsheetid>ddf331d9-2da1-4c2a-90ba-fdb708149579</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-45</displayx>
+    <displayy>30</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <outputs>
+      <output type="collection" name="DataTable" stage="dt" />
+      <output type="flag" name="Success" stage="Success" />
+      <output type="text" name="Exception" stage="Exception" />
+    </outputs>
+  </stage>
+  <stage stageid="a386554c-9969-4e45-a25d-30ae79f3a7a7" name="ReadXMLStr" type="Code">
+    <subsheetid>ddf331d9-2da1-4c2a-90ba-fdb708149579</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-45</displayx>
+    <displayy>-75</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="xml" expr="[xml]" />
+      <input type="flag" name="withDataTables" expr="[withDataTables]" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="XMLDataSet" stage="dt" />
+    </outputs>
+    <onsuccess>10a269ed-62a2-46f4-9c52-59cc12706267</onsuccess>
+    <code><![CDATA[DataSet ds = new DataSet();
+ds.ReadXml(new StringReader(xml),XmlReadMode.ReadSchema);
+
+XMLDataSet = new DataTable();
+XMLDataSet.Columns.Add("ID", typeof(decimal));
+XMLDataSet.Columns.Add("Name", typeof(string));
+if (withDataTables) 
+	XMLDataSet.Columns.Add("Table", typeof(DataTable));
+
+foreach(DataTable table in ds.Tables)
+{
+	DataRow dr = XMLDataSet.NewRow();
+	dr["ID"] = ds.Tables.IndexOf(table);
+	dr["Name"] = table.TableName;
+	if (withDataTables) 
+		dr["Table"] = table;
+	XMLDataSet.Rows.Add(dr);
+}]]></code>
+  </stage>
+  <stage stageid="d389ba3d-62f4-4786-ae7a-36dac31906a3" name="Success" type="Data">
+    <subsheetid>ddf331d9-2da1-4c2a-90ba-fdb708149579</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>120</displayx>
+    <displayy>30</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>flag</datatype>
+    <initialvalue>False</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="259a9f96-f179-465b-aa1e-0c5aa0c15f7f" name="Exception" type="Data">
+    <subsheetid>ddf331d9-2da1-4c2a-90ba-fdb708149579</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>180</displayx>
+    <displayy>30</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="a15f61f2-7d70-4c50-bd78-66e18879dd7c" name="Block1" type="Block">
+    <subsheetid>ddf331d9-2da1-4c2a-90ba-fdb708149579</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-90</displayx>
+    <displayy>-105</displayy>
+    <displaywidth>180</displaywidth>
+    <displayheight>60</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="4fefadf2-ded2-462b-b992-3d407a9103b9" name="Get exception details" type="Recover">
+    <subsheetid>ddf331d9-2da1-4c2a-90ba-fdb708149579</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>45</displayx>
+    <displayy>-75</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <onsuccess>3ea4aa30-3ca8-4596-b79d-0b3535fd6c85</onsuccess>
+  </stage>
+  <stage stageid="7131470b-69b1-4adb-9700-7340d73b106b" name="Resume" type="Resume">
+    <subsheetid>ddf331d9-2da1-4c2a-90ba-fdb708149579</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>45</displayx>
+    <displayy>30</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <onsuccess>33e8ee35-509d-44fb-8ca5-107f4496c027</onsuccess>
+  </stage>
+  <stage stageid="3ea4aa30-3ca8-4596-b79d-0b3535fd6c85" name="Exception" type="MultipleCalculation">
+    <subsheetid>ddf331d9-2da1-4c2a-90ba-fdb708149579</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>45</displayx>
+    <displayy>-15</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <onsuccess>7131470b-69b1-4adb-9700-7340d73b106b</onsuccess>
+    <steps>
+      <calculation expression="ExceptionDetail()" stage="Exception" />
+      <calculation expression="False" stage="Success" />
+    </steps>
+  </stage>
+  <stage stageid="10a269ed-62a2-46f4-9c52-59cc12706267" name="Success" type="MultipleCalculation">
+    <subsheetid>ddf331d9-2da1-4c2a-90ba-fdb708149579</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-45</displayx>
+    <displayy>-15</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <onsuccess>33e8ee35-509d-44fb-8ca5-107f4496c027</onsuccess>
+    <steps>
+      <calculation expression="True" stage="Success" />
+    </steps>
+  </stage>
+  <stage stageid="6cad4692-1901-4717-8c48-12ae506220ad" name="xml" type="Data">
+    <subsheetid>ddf331d9-2da1-4c2a-90ba-fdb708149579</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>45</displayx>
+    <displayy>-135</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="bbe08118-405a-4aa3-89d2-5ce1569fc122" name="withDataTables" type="Data">
+    <subsheetid>ddf331d9-2da1-4c2a-90ba-fdb708149579</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>105</displayx>
+    <displayy>-135</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>flag</datatype>
+    <initialvalue>True</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="bce467a5-447b-4010-94dd-0fd4a479fb18" name="Read DataTable from XML String (no Schema)" type="SubSheetInfo">
+    <subsheetid>8744a495-438f-43fb-9436-35ad1a2794b2</subsheetid>
+    <narrative>Get DataTable by Name or Index, first one if both are empty.</narrative>
+    <displayx>-195</displayx>
+    <displayy>-105</displayy>
+    <displaywidth>150</displaywidth>
+    <displayheight>90</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+  </stage>
+  <stage stageid="af2ecbbe-e242-4ed1-ae44-6e663c85409f" name="Start" type="Start">
+    <subsheetid>8744a495-438f-43fb-9436-35ad1a2794b2</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-45</displayx>
+    <displayy>-135</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="XML" narrative="XML String" stage="XML" />
+      <input type="text" name="TableName" narrative="Table name to get" stage="TableName" />
+      <input type="number" name="TableIndex" narrative="Table index to get if TableName is empty. Default is 0" stage="TableIndex" />
+    </inputs>
+    <onsuccess>00fafc81-af39-4fee-b0a5-5e1875db0d45</onsuccess>
+  </stage>
+  <stage stageid="44a54daa-4dc5-4dbd-9394-1805fd829afb" name="End" type="End">
+    <subsheetid>8744a495-438f-43fb-9436-35ad1a2794b2</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-45</displayx>
+    <displayy>-45</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <outputs>
+      <output type="collection" name="XMLDataTable" narrative="Result as DataTable" stage="dt" />
+      <output type="flag" name="hasDataTable" narrative="Returns False if DataTable not found" stage="hasDataTable" />
+    </outputs>
+  </stage>
+  <stage stageid="00fafc81-af39-4fee-b0a5-5e1875db0d45" name="XMLGetDataTableSchema" type="Code">
+    <subsheetid>8744a495-438f-43fb-9436-35ad1a2794b2</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-45</displayx>
+    <displayy>-90</displayy>
+    <displaywidth>120</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="xml" expr="[XML]" />
+      <input type="text" name="TableName" expr="[TableName]" />
+      <input type="number" name="TableIndex" expr="[TableIndex]" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="XMLDataTable" stage="dt" />
+      <output type="flag" name="hasDataTable" stage="hasDataTable" />
+    </outputs>
+    <onsuccess>44a54daa-4dc5-4dbd-9394-1805fd829afb</onsuccess>
+    <code><![CDATA[DataSet ds = new DataSet();
+ds.ReadXml(new StringReader(xml),XmlReadMode.ReadSchema);
+
+if (TableName == "" && (int)TableIndex < ds.Tables.Count && (int)TableIndex >=0){
+	hasDataTable = true;
+	XMLDataTable = ds.Tables[(int)TableIndex];
+} 
+else if (ds.Tables[TableName] != null) {
+	hasDataTable = true;
+	XMLDataTable = ds.Tables[TableName];
+} 
+else {
+	hasDataTable = false;
+	XMLDataTable = new DataTable();
+}]]></code>
+  </stage>
+  <stage stageid="a5b4158a-c7e4-499e-853f-9bd2c39cd5ed" name="TableName" type="Data">
+    <subsheetid>8744a495-438f-43fb-9436-35ad1a2794b2</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>45</displayx>
+    <displayy>-135</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="5e77066f-1d3f-40e9-836f-7d9f8b96e404" name="TableIndex" type="Data">
+    <subsheetid>8744a495-438f-43fb-9436-35ad1a2794b2</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>105</displayx>
+    <displayy>-135</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>number</datatype>
+    <initialvalue>0</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="6845f5f1-4581-438a-8ea4-cdfac58ac657" name="hasDataTable" type="Data">
+    <subsheetid>8744a495-438f-43fb-9436-35ad1a2794b2</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>45</displayx>
+    <displayy>-90</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>flag</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+</process>
