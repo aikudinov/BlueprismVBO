@@ -1,0 +1,190 @@
+<process name="__selection__Excel Extended AIKUDINO" type="object">
+  <subsheet subsheetid="24840a61-0ed5-407d-b8b1-d684eaaac257" type="Normal" published="True">
+    <name>Pivot.Fields.Items.Visible</name>
+    <view>
+      <camerax>13</camerax>
+      <cameray>0</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <stage stageid="6d30b381-72f5-49c3-bd98-dc4e8473ea1f" name="Pivot.Fields.Items.Visible" type="SubSheetInfo">
+    <subsheetid>24840a61-0ed5-407d-b8b1-d684eaaac257</subsheetid>
+    <narrative>Set Worksheet.Visible property</narrative>
+    <displayx>-195</displayx>
+    <displayy>-105</displayy>
+    <displaywidth>150</displaywidth>
+    <displayheight>90</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+  </stage>
+  <stage stageid="3f767245-1dd4-45f4-bd5c-670c6590f8d0" name="Start" type="Start">
+    <subsheetid>24840a61-0ed5-407d-b8b1-d684eaaac257</subsheetid>
+    <loginhibit />
+    <narrative></narrative>
+    <displayx>-45</displayx>
+    <displayy>-135</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="number" name="handle" narrative="handle" stage="handle" />
+      <input type="text" name="Workbook Name" narrative="Workbook Name" stage="workbookname" />
+      <input type="text" name="Worksheet Name" narrative="Worksheet Name" stage="worksheetname" />
+      <input type="number" name="Worksheet Index" narrative="Worksheet Index (if name is blank)" stage="worksheetidx" />
+      <input type="text" name="Pivot Name" narrative="Pivot table name" stage="pivotname" />
+      <input type="text" name="Pivot Field" narrative="Pivot field name" stage="pivotfield" />
+      <input type="text" name="Pivot Item" narrative="Pivot item name" stage="pivotitem" />
+      <input type="flag" name="isVisible" narrative="Is item visible?" stage="visible" />
+    </inputs>
+    <onsuccess>ecfcc4c7-a779-44d6-a3fd-06ead9bc23ff</onsuccess>
+  </stage>
+  <stage stageid="7749314f-a0e6-4afb-a304-2d96f9908276" name="End" type="End">
+    <subsheetid>24840a61-0ed5-407d-b8b1-d684eaaac257</subsheetid>
+    <loginhibit />
+    <narrative></narrative>
+    <displayx>-45</displayx>
+    <displayy>-45</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+  </stage>
+  <stage stageid="ecfcc4c7-a779-44d6-a3fd-06ead9bc23ff" name="PivotFieldItemVisible" type="Code">
+    <subsheetid>24840a61-0ed5-407d-b8b1-d684eaaac257</subsheetid>
+    <loginhibit />
+    <narrative></narrative>
+    <displayx>-45</displayx>
+    <displayy>-90</displayy>
+    <displaywidth>120</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="number" name="handle" expr="[handle]" />
+      <input type="text" name="workbookname" expr="[workbookname]" />
+      <input type="text" name="worksheetname" expr="[worksheetname]" />
+      <input type="number" name="worksheetidx" expr="[worksheetidx]" />
+      <input type="text" name="pivotname" expr="[pivotname]" />
+      <input type="text" name="pivotfield" expr="[pivotfield]" />
+      <input type="text" name="pivotitem" expr="[pivotitem]" />
+      <input type="flag" name="visible" expr="[visible]" />
+    </inputs>
+    <onsuccess>7749314f-a0e6-4afb-a304-2d96f9908276</onsuccess>
+    <code><![CDATA[Dim xlInstance = GetInstance(handle)
+Dim xlWorkbook As Object = GetWorkbook(handle, workbookname)
+Dim xlSrcSheet As Object	
+If worksheetname <> "" then
+	xlSrcSheet = GetWorksheet(handle, workbookname, worksheetname,False)
+Elseif worksheetidx > 0 then
+	xlSrcSheet = xlWorkbook.Sheets(worksheetidx)
+Else
+	xlSrcSheet = xlWorkbook.ActiveSheet
+End if
+
+
+xlSrcSheet.PivotTables(pivotname).PivotFields(pivotfield).PivotItems(pivotitem).Visible = visible
+
+]]></code>
+  </stage>
+  <stage stageid="4681f3ea-3021-4d9c-b0a5-b30cd0994814" name="handle" type="Data">
+    <subsheetid>24840a61-0ed5-407d-b8b1-d684eaaac257</subsheetid>
+    <narrative></narrative>
+    <displayx>105</displayx>
+    <displayy>-135</displayy>
+    <displaywidth>90</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <datatype>number</datatype>
+    <initialvalue>0</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="434c4911-22c7-455a-a914-43049b264af3" name="worksheetname" type="Data">
+    <subsheetid>24840a61-0ed5-407d-b8b1-d684eaaac257</subsheetid>
+    <narrative></narrative>
+    <displayx>210</displayx>
+    <displayy>-90</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="c229aa33-5928-4bae-89da-6272a2e5ff4c" name="workbookname" type="Data">
+    <subsheetid>24840a61-0ed5-407d-b8b1-d684eaaac257</subsheetid>
+    <narrative></narrative>
+    <displayx>120</displayx>
+    <displayy>-90</displayy>
+    <displaywidth>120</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="66d7f0d5-054f-4353-b133-2f7a37cc2f72" name="worksheetidx" type="Data">
+    <subsheetid>24840a61-0ed5-407d-b8b1-d684eaaac257</subsheetid>
+    <narrative></narrative>
+    <displayx>255</displayx>
+    <displayy>-90</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>number</datatype>
+    <initialvalue>0</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="10993c70-414f-41f8-9f3f-85960109e2b7" name="pivotname" type="Data">
+    <subsheetid>24840a61-0ed5-407d-b8b1-d684eaaac257</subsheetid>
+    <narrative></narrative>
+    <displayx>90</displayx>
+    <displayy>-45</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="4cdb6817-2fb1-41e5-92ad-8e39dedd19db" name="pivotfield" type="Data">
+    <subsheetid>24840a61-0ed5-407d-b8b1-d684eaaac257</subsheetid>
+    <narrative></narrative>
+    <displayx>135</displayx>
+    <displayy>-45</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="0a11eaeb-1e9a-4f26-80dc-eaa0b9ed6636" name="pivotitem" type="Data">
+    <subsheetid>24840a61-0ed5-407d-b8b1-d684eaaac257</subsheetid>
+    <narrative></narrative>
+    <displayx>180</displayx>
+    <displayy>-45</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="944959f1-61de-4436-94f6-797df265c6f7" name="visible" type="Data">
+    <subsheetid>24840a61-0ed5-407d-b8b1-d684eaaac257</subsheetid>
+    <narrative></narrative>
+    <displayx>225</displayx>
+    <displayy>-45</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>flag</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+</process>

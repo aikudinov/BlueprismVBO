@@ -1,0 +1,96 @@
+<process name="__selection__Excel Extended AIKUDINO" type="object">
+  <subsheet subsheetid="fbb670b5-a127-4e67-b134-8d279ab9dd6b" type="Normal" published="True">
+    <name>Pivot.RefreshAll</name>
+    <view>
+      <camerax>13</camerax>
+      <cameray>0</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <stage stageid="073c352f-f18d-44c7-818d-1f795843fab0" name="Set Sheet.Visible" type="SubSheetInfo">
+    <subsheetid>fbb670b5-a127-4e67-b134-8d279ab9dd6b</subsheetid>
+    <narrative>Set Worksheet.Visible property</narrative>
+    <displayx>-195</displayx>
+    <displayy>-105</displayy>
+    <displaywidth>150</displaywidth>
+    <displayheight>90</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+  </stage>
+  <stage stageid="097086ad-28c5-40a4-8edb-d0fd5d38bb54" name="Start" type="Start">
+    <subsheetid>fbb670b5-a127-4e67-b134-8d279ab9dd6b</subsheetid>
+    <loginhibit />
+    <narrative></narrative>
+    <displayx>-45</displayx>
+    <displayy>-135</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="number" name="handle" stage="handle" />
+      <input type="text" name="Workbook Name" narrative="Workbook Name" stage="workbookname" />
+    </inputs>
+    <onsuccess>dc945e2c-8a85-4e24-b56b-ae7c006c4984</onsuccess>
+  </stage>
+  <stage stageid="8bc3cea6-eade-4227-9859-b8dd10152338" name="End" type="End">
+    <subsheetid>fbb670b5-a127-4e67-b134-8d279ab9dd6b</subsheetid>
+    <loginhibit />
+    <narrative></narrative>
+    <displayx>-45</displayx>
+    <displayy>-45</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+  </stage>
+  <stage stageid="dc945e2c-8a85-4e24-b56b-ae7c006c4984" name="Pivot Refresh All" type="Code">
+    <subsheetid>fbb670b5-a127-4e67-b134-8d279ab9dd6b</subsheetid>
+    <loginhibit />
+    <narrative></narrative>
+    <displayx>-45</displayx>
+    <displayy>-90</displayy>
+    <displaywidth>120</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="number" name="handle" expr="[handle]" />
+      <input type="text" name="workbookname" expr="[workbookname]" />
+    </inputs>
+    <onsuccess>8bc3cea6-eade-4227-9859-b8dd10152338</onsuccess>
+    <code><![CDATA[Dim xlInstance = GetInstance(handle)
+Dim xlWorkbook As Object = GetWorkbook(handle, workbookname)
+Dim xlSheet As Object	
+Dim xlPivotTable As Object
+
+For Each xlSheet In xlWorkbook.Worksheets
+	For Each xlPivotTable In xlSheet.PivotTables
+	  xlPivotTable.RefreshTable
+	Next xlPivotTable
+Next xlSheet
+]]></code>
+  </stage>
+  <stage stageid="69390a10-ad54-4c85-8ddb-7466c5a1adaa" name="handle" type="Data">
+    <subsheetid>fbb670b5-a127-4e67-b134-8d279ab9dd6b</subsheetid>
+    <narrative></narrative>
+    <displayx>105</displayx>
+    <displayy>-135</displayy>
+    <displaywidth>90</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <datatype>number</datatype>
+    <initialvalue>0</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="08e581e3-b8f9-4960-8f0c-b0adbba21f78" name="workbookname" type="Data">
+    <subsheetid>fbb670b5-a127-4e67-b134-8d279ab9dd6b</subsheetid>
+    <narrative></narrative>
+    <displayx>120</displayx>
+    <displayy>-90</displayy>
+    <displaywidth>120</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+</process>

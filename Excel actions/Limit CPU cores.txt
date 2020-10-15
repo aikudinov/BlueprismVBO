@@ -1,0 +1,144 @@
+<process name="__selection__Excel Extended AIKUDINO" type="object">
+  <subsheet subsheetid="8e574a1c-7a90-461d-8c3d-329ffd8d576c" type="Normal" published="True">
+    <name>Limit CPU cores</name>
+    <view>
+      <camerax>60</camerax>
+      <cameray>0</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <stage stageid="52116526-0b96-4a45-af05-722df359423d" name="Limit CPU cores" type="SubSheetInfo">
+    <subsheetid>8e574a1c-7a90-461d-8c3d-329ffd8d576c</subsheetid>
+    <narrative></narrative>
+    <displayx>-195</displayx>
+    <displayy>-105</displayy>
+    <displaywidth>150</displaywidth>
+    <displayheight>90</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+  </stage>
+  <stage stageid="25aaba36-b2b9-4b1a-8012-d4f545ba505b" name="Start" type="Start">
+    <subsheetid>8e574a1c-7a90-461d-8c3d-329ffd8d576c</subsheetid>
+    <loginhibit />
+    <narrative></narrative>
+    <displayx>15</displayx>
+    <displayy>-105</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="number" name="handle" stage="handle" />
+      <input type="flag" name="MTEnabled" narrative="Multi Threading enabled?" stage="MTEnabled" />
+      <input type="number" name="MTThreadMode" narrative="0 - Auto, 1 - Manual" stage="MTThreadMode" />
+      <input type="number" name="MTThreadCount" narrative="Core count" stage="MTThreadCount" />
+    </inputs>
+    <onsuccess>31bad80a-ead5-4d7b-970d-9481e616478a</onsuccess>
+  </stage>
+  <stage stageid="269b8073-aa6f-47dc-aa9a-135cd5fde278" name="End" type="End">
+    <subsheetid>8e574a1c-7a90-461d-8c3d-329ffd8d576c</subsheetid>
+    <loginhibit />
+    <narrative></narrative>
+    <displayx>15</displayx>
+    <displayy>-15</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <outputs>
+      <output type="flag" name="MTEnabled" stage="MTEnabled" />
+      <output type="number" name="MTThreadMode" stage="MTThreadMode" />
+      <output type="number" name="MTThreadCount" stage="MTThreadCount" />
+    </outputs>
+  </stage>
+  <stage stageid="31bad80a-ead5-4d7b-970d-9481e616478a" name="Set MultiThreading Options" type="Code">
+    <subsheetid>8e574a1c-7a90-461d-8c3d-329ffd8d576c</subsheetid>
+    <loginhibit />
+    <narrative></narrative>
+    <displayx>15</displayx>
+    <displayy>-60</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="number" name="handle" expr="[handle]" />
+      <input type="flag" name="MTEnabled" expr="[MTEnabled]" />
+      <input type="number" name="MTThreadMode" expr="[MTThreadMode]" />
+      <input type="number" name="MTThreadCount" expr="[MTThreadCount]" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="outMTEnabled" stage="MTEnabled" />
+      <output type="number" name="outMTThreadMode" stage="MTThreadMode" />
+      <output type="number" name="outMTThreadCount" stage="MTThreadCount" />
+    </outputs>
+    <onsuccess>269b8073-aa6f-47dc-aa9a-135cd5fde278</onsuccess>
+    <code><![CDATA[Dim xlInstance = GetInstance(handle)
+
+xlInstance.MultiThreadedCalculation.Enabled = MTEnabled
+If (MTEnabled) Then
+	If (MTThreadCount > 0) Then 
+		xlInstance.MultiThreadedCalculation.threadCount = MTThreadCount
+	ElseIf (MTThreadCount < 0) Then 
+		xlInstance.MultiThreadedCalculation.threadCount = xlInstance.MultiThreadedCalculation.threadCount - MTThreadCount 
+	Else
+		MTThreadMode = 0
+	End If
+
+	'ThreadMode: xlThreadModeAutomatic = 0; xlThreadModeManual = 1	
+	xlInstance.MultiThreadedCalculation.ThreadMode = MTThreadMode
+End If
+
+outMTEnabled = xlInstance.MultiThreadedCalculation.Enabled
+outMTThreadCount = xlInstance.MultiThreadedCalculation.threadCount
+outMTThreadMode = xlInstance.MultiThreadedCalculation.ThreadMode]]></code>
+  </stage>
+  <stage stageid="b18db32d-10a4-4113-a1fd-983e2b581f4a" name="MTEnabled" type="Data">
+    <subsheetid>8e574a1c-7a90-461d-8c3d-329ffd8d576c</subsheetid>
+    <narrative></narrative>
+    <displayx>150</displayx>
+    <displayy>-105</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>flag</datatype>
+    <initialvalue>True</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="a156cf75-0428-452d-b76d-c7b729c024b5" name="handle" type="Data">
+    <subsheetid>8e574a1c-7a90-461d-8c3d-329ffd8d576c</subsheetid>
+    <narrative></narrative>
+    <displayx>90</displayx>
+    <displayy>-105</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>number</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="c20bb3ac-dc66-43be-ae82-61fffa7435e9" name="MTThreadMode" type="Data">
+    <subsheetid>8e574a1c-7a90-461d-8c3d-329ffd8d576c</subsheetid>
+    <narrative></narrative>
+    <displayx>210</displayx>
+    <displayy>-105</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>number</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="379cc9f1-ecbb-463c-85a0-ca40420392d5" name="MTThreadCount" type="Data">
+    <subsheetid>8e574a1c-7a90-461d-8c3d-329ffd8d576c</subsheetid>
+    <narrative></narrative>
+    <displayx>270</displayx>
+    <displayy>-105</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>number</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+</process>
