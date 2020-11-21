@@ -130,13 +130,10 @@
       <reference>System.Data.dll</reference>
       <reference>System.Xml.dll</reference>
       <reference>System.Drawing.dll</reference>
-      <reference>C:\Program Files\Blue Prism Limited\Blue Prism Automate\BluePrismMAPIExAutomation.dll</reference>
       <reference>System.Web.dll</reference>
     </references>
     <imports>
       <import>System</import>
-      <import>BluePrism.WindowsAutomation.MAPIEx</import>
-      <import>BluePrism.WindowsAutomation.MAPIEx.NetMAPI</import>
       <import>System.Collections.Generic</import>
       <import>System.Data</import>
       <import>Microsoft.VisualBasic</import>
@@ -149,26 +146,6 @@
 
 ]]></globalcode>
     <code><![CDATA[
-Private mDiagsLog As String = Nothing
-
-Private Function GetNextMessage(ByVal mapi As NetMAPI, ByVal bUnreadOnly As Boolean) As MAPIMessage
-	Dim m As MAPIMessage = Nothing
-	If Not mapi.GetNextMessage(m, bUnreadOnly) Then
-		Throw New Exception("Failed to Get Next Message")
-	End If
-	Return m
-End Function
-
-Private Sub Log(ByVal msg As String)
-	If mDiagsLog Is Nothing Then Return
-	Try
-		Dim ts As String = DateTime.UtcNow.ToString("u")
-        File.AppendAllText(mDiagsLog, String.Format("{0}: {1}", ts, msg) & vbCrLf, Encoding.UTF8)
-	Catch
-        'Nothing we can do really.
-    End Try
-End Sub
-
 Private Function EncodeHTMLAsASCII(ByVal msg As String) As String
         Dim result = ""
         

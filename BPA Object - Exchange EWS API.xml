@@ -1,4 +1,4 @@
-﻿<process name="Exchange EWS API" version="1.0" bpversion="6.2.1.4272" narrative="[[ Exchange Web Services Managed API ]]&#xD;&#xA;&#xD;&#xA;Init EWS: Initialize EWS service. Uses default credentials on VBO load. Any further actions use that service instance.&#xD;&#xA;Send Mail - Create new message.&#xD;&#xA;Get Mail List - Get list of messages in mailbox\folders, with filters.&#xD;&#xA;Get Mail Message - Get mail message by Id.&#xD;&#xA;Reply Mail\Forward Mail - Reply\Forward emails by Id.&#xD;&#xA;Move Item\Delete Item - Move\Delete emails by Id (or any other exchange item) " byrefcollection="true" type="object" runmode="Background" preferredid="9522082a-16d1-4a1d-81fb-e69ad4170893">
+﻿<process name="Exchange EWS API" version="1.0" bpversion="6.5.1.14401" narrative="[[ Exchange Web Services Managed API ]]&#xD;&#xA;&#xD;&#xA;Init EWS: Initialize EWS service. Uses default credentials on VBO load. Any further actions use that service instance.&#xD;&#xA;Send Mail - Create new message.&#xD;&#xA;Get Mail List - Get list of messages in mailbox\folders, with filters.&#xD;&#xA;Get Mail Message - Get mail message by Id.&#xD;&#xA;Reply Mail\Forward Mail - Reply\Forward emails by Id.&#xD;&#xA;Move Item\Delete Item - Move\Delete emails by Id (or any other exchange item) " byrefcollection="true" type="object" runmode="Background" preferredid="9522082a-16d1-4a1d-81fb-e69ad4170893">
   <appdef>
     <element name="Application Root">
       <id>def2f684-fd2d-4ba0-9293-2d68f7ed2bff</id>
@@ -92,7 +92,7 @@
   <subsheet subsheetid="006d2192-6cd3-44fb-ad13-15130026e046" type="Normal" published="False">
     <name>Get Appointment List</name>
     <view>
-      <camerax>-524</camerax>
+      <camerax>-282</camerax>
       <cameray>0</cameray>
       <zoom version="2">1.25</zoom>
     </view>
@@ -252,11 +252,20 @@ static Dictionary<string, WellKnownFolderName> WellKnownFolderNameDict = new Dic
 // 2) Attempt to find folder with a given path, starting with any symbol that is treated as a delimiter, followed by WellKnownFolderName, then any folder hierarchy.
 //    Examples: "/Inbox/MyFolder/SubFolder" or if folder name contains slashes, then use different delimiter that does not exist in any folder names "#Inbox#My/folder/with/slashes#Another folder"
 // 	  Limitations: path can not contain two WellKnownFolderNames, start path with the last WellKnownFolderName. "/Root/Inbox/MyFolder" won't work, use "/Inbox/MyFolder" instead.
-static FolderId SearchFolderByName(ExchangeService service, string path)
+static FolderId SearchFolderByName(ExchangeService service, string path, string mailbox = "")
 {
-	FolderId SearchFolderId = WellKnownFolderName.Root;
-	if (WellKnownFolderNameDict.ContainsKey(path)) {
-		return WellKnownFolderNameDict[path];
+	FolderId SearchFolderId;
+	if (mailbox == "") {
+		SearchFolderId = WellKnownFolderName.Root;
+	} else {
+		SearchFolderId = new FolderId(WellKnownFolderName.Root,mailbox);		
+	}
+	if (WellKnownFolderNameDict.ContainsKey(path)) {	
+		if (mailbox == "") {
+			return WellKnownFolderNameDict[path];
+		} else {
+			return new FolderId(WellKnownFolderNameDict[path],mailbox);		
+		}
 	} else {
 		FolderView fview = new FolderView(1);
 		fview.Traversal = FolderTraversal.Deep;
@@ -272,6 +281,11 @@ static FolderId SearchFolderByName(ExchangeService service, string path)
 				folderDepth++;
 				if (folderDepth == 1 && WellKnownFolderNameDict.ContainsKey(folder)) 				{
 					SearchFolderId = WellKnownFolderNameDict[folder];
+					if (mailbox == "") {
+						SearchFolderId = WellKnownFolderNameDict[folder];
+					} else {
+						SearchFolderId = new FolderId(WellKnownFolderNameDict[folder],mailbox);		
+					}
 				} else {
 					filter = new SearchFilter.IsEqualTo(FolderSchema.DisplayName, folder);
 					results = service.FindFolders(SearchFolderId, filter, fview);
@@ -469,6 +483,7 @@ Url = service.Url.ToString();
       <input type="flag" name="isHTML" narrative="Optional: False is default" stage="isHTML" />
       <input type="text" name="Attachments" narrative="Optional: Attachment list" stage="Attachments" />
       <input type="flag" name="SaveSent" narrative="Optional: Save mail in Sent folder? False is default" stage="SaveSent" />
+      <input type="text" name="mailbox" narrative="Optional: Shared mailbox" stage="mailbox" />
     </inputs>
     <onsuccess>163c33c4-432d-4539-aac2-8b216c51b2db</onsuccess>
   </stage>
@@ -506,6 +521,7 @@ Url = service.Url.ToString();
       <input type="flag" name="isHTML" expr="[isHTML]" />
       <input type="text" name="Attachments" expr="[Attachments]" />
       <input type="flag" name="SaveSent" expr="[SaveSent]" />
+      <input type="text" name="mailbox" expr="[mailbox]" />
     </inputs>
     <outputs>
       <output type="flag" name="Success" stage="Success" />
@@ -533,19 +549,22 @@ try {
 	//To
 	foreach (String r in To.Split(splitAny, StringSplitOptions.RemoveEmptyEntries))
 	{
-		email.ToRecipients.Add(r);
+		email.ToRecipients.Add(r.Trim());
 	}
 	//CC
 	foreach (String r in CC.Split(splitAny, StringSplitOptions.RemoveEmptyEntries)) 
 	{
-		email.CcRecipients.Add(r);
+		email.CcRecipients.Add(r.Trim());
 	}
 	//BCC
 	foreach (String r in BCC.Split(splitAny, StringSplitOptions.RemoveEmptyEntries)) 
 	{
-		email.BccRecipients.Add(r);
+		email.BccRecipients.Add(r.Trim());
 	}
 
+	//SaveDraft
+    email.Save(SearchFolderByName(service,"Drafts",mailbox));
+	
 	// Add attachments
 	foreach (String att in Attachments.Split(splitSemicolon, StringSplitOptions.RemoveEmptyEntries)) 
 	{
@@ -562,7 +581,7 @@ try {
 	//Send
 	if (SaveSent) 
 	{
-		email.SendAndSaveCopy();
+		email.SendAndSaveCopy(SearchFolderByName(service,"SentItems",mailbox));
 	} else {
 		email.Send();
 	}
@@ -626,7 +645,7 @@ ServiceUrl will be autodiscovered with default credentials if you set valid emai
     <displayheight>30</displayheight>
     <font family="Segoe UI" size="10" style="Regular" color="000000" />
     <datatype>text</datatype>
-    <initialvalue xml:space="preserve">https://example.com/ews/exchange.asmx</initialvalue>
+    <initialvalue xml:space="preserve">https://e-mail.example.com/ews/exchange.asmx</initialvalue>
     <private />
     <alwaysinit />
   </stage>
@@ -833,7 +852,7 @@ Remove this if default credentials wont work for you.</narrative>
     <narrative>
     </narrative>
     <displayx>15</displayx>
-    <displayy>60</displayy>
+    <displayy>165</displayy>
     <displaywidth>60</displaywidth>
     <displayheight>30</displayheight>
     <font family="Segoe UI" size="10" style="Regular" color="000000" />
@@ -849,9 +868,9 @@ Remove this if default credentials wont work for you.</narrative>
     <displayheight>30</displayheight>
     <font family="Segoe UI" size="10" style="Regular" color="000000" />
     <inputs>
-      <input type="flag" name="UseDefaultCredentials" narrative="Use default credentials. True by default." expr="True" />
-      <input type="text" name="userEmailAddress" narrative="Required when not using default credentials, optional with default credentials, but should be supplied for service url autodiscovery." expr="&quot;user@example.com&quot;" />
-      <input type="text" name="userPassword" narrative="Required when not using default credentials, otherwise ignored." expr="" />
+      <input type="flag" name="UseDefaultCredentials" narrative="Use default credentials. True by default." expr="False" />
+      <input type="text" name="userEmailAddress" narrative="Required when not using default credentials, optional with default credentials, but should be supplied for service url autodiscovery." expr="&quot;bp@example.com&quot;" />
+      <input type="text" name="userPassword" narrative="Required when not using default credentials, otherwise ignored." expr="&quot;passwd&quot;" />
       <input type="text" name="ServiceUrl" narrative="Required when using default credentials without userEmailAddress." expr="" />
     </inputs>
     <onsuccess>751130b2-654e-4c19-9ce9-667e19c1309c</onsuccess>
@@ -949,7 +968,7 @@ received:&gt;12/29/2019 received:&lt;12/31/2019</narrative>
     <displayheight>30</displayheight>
     <font family="Segoe UI" size="10" style="Regular" color="000000" />
     <inputs>
-      <input type="number" name="Id" narrative="Message id" stage="Id" />
+      <input type="text" name="Id" narrative="Message id" stage="Id" />
       <input type="flag" name="textBody" narrative="Always get body as text. False returns as is." stage="textBody" />
       <input type="flag" name="getAttachments" narrative="Get attachments in collection." stage="getAttachments" />
       <input type="text" name="saveAttachmentsPath" narrative="Path to save attachments. Empty string " stage="saveAttachmentsPath" />
@@ -1143,14 +1162,15 @@ if (email.HasAttachments){
       <input type="text" name="senderFilter" narrative="Optional: Sender search filter" expr="" />
       <input type="flag" name="unreadOnly" narrative="Optional: Return only Unread mail" expr="" />
       <input type="flag" name="sortDateReceivedAscending" narrative="Optional: Older first?" expr="" />
-      <input type="date" name="dateFrom" narrative="Optional: Received date from" expr="" />
-      <input type="date" name="dateTo" narrative="Optional: Received date to" expr="" />
+      <input type="datetime" name="dateFrom" narrative="Optional: Received date from" expr="" />
+      <input type="datetime" name="dateTo" narrative="Optional: Received date to" expr="" />
+      <input type="text" name="mailbox" friendlyname="mailbox" narrative="Optional: Shared mailbox" expr="&quot;doc_rpa@example.com&quot;" />
     </inputs>
     <outputs>
       <output type="collection" name="MessageView" stage="MessageView" />
       <output type="flag" name="MoreAvailable" stage="MoreAvailable" />
     </outputs>
-    <onsuccess>a36e0bbc-ddff-463e-8d3c-23efcc72ce12</onsuccess>
+    <onsuccess>8553b817-afa0-4e2b-8035-c43872ebba66</onsuccess>
     <processid>b48f8483-0de2-4ce2-8fe0-3cea3f83da30</processid>
   </stage>
   <stage stageid="a50e33c0-990a-4ec3-8942-33e1f07cda29" name="Subject" type="Data">
@@ -1735,6 +1755,7 @@ received:&gt;12/29/2019 received:&lt;12/31/2019</narrative>
       <input type="text" name="Attachments" narrative="Optional: Attachment list" stage="Attachments" />
       <input type="flag" name="SaveSent" narrative="Optional: Save mail in Sent folder? False is default" stage="SaveSent" />
       <input type="flag" name="KeepOriginalMessage" narrative="Optional: Keep original message?" stage="KeepOriginalMessage" />
+      <input type="text" name="mailbox" narrative="Optional: Shared mailbox" stage="mailbox" />
     </inputs>
     <onsuccess>dedfd254-305a-48cc-bed3-e6ab8feffd4b</onsuccess>
   </stage>
@@ -1774,6 +1795,7 @@ received:&gt;12/29/2019 received:&lt;12/31/2019</narrative>
       <input type="text" name="Attachments" expr="[Attachments]" />
       <input type="flag" name="SaveSent" expr="[SaveSent]" />
       <input type="flag" name="KeepOriginalMessage" expr="[KeepOriginalMessage]" />
+      <input type="text" name="mailbox" expr="[mailbox]" />
     </inputs>
     <outputs>
       <output type="flag" name="Success" stage="Success" />
@@ -1800,21 +1822,21 @@ try {
 	//To
 	foreach (String r in To.Split(splitAny, StringSplitOptions.RemoveEmptyEntries))
 	{
-		responseMessage.ToRecipients.Add(r);
+		responseMessage.ToRecipients.Add(r.Trim());
 	}
 	//CC
 	foreach (String r in CC.Split(splitAny, StringSplitOptions.RemoveEmptyEntries)) 
 	{
-		responseMessage.CcRecipients.Add(r);
+		responseMessage.CcRecipients.Add(r.Trim());
 	}
 	//BCC
 	foreach (String r in BCC.Split(splitAny, StringSplitOptions.RemoveEmptyEntries)) 
 	{
-		responseMessage.BccRecipients.Add(r);
+		responseMessage.BccRecipients.Add(r.Trim());
 	}
 
 	// We need to save message to add attachments
-    EmailMessage responseMessageDraft = responseMessage.Save();
+	EmailMessage responseMessageDraft = responseMessage.Save(SearchFolderByName(service,"Drafts",mailbox));	
 	
 	// Add attachments
 	foreach (String att in Attachments.Split(splitSemicolon, StringSplitOptions.RemoveEmptyEntries)) 
@@ -1836,7 +1858,7 @@ try {
 	//Send
 	if (SaveSent) 
 	{
-		responseMessageDraft.SendAndSaveCopy();
+		responseMessageDraft.SendAndSaveCopy(SearchFolderByName(service,"SentItems",mailbox));
 	} else {
 		responseMessageDraft.Send();
 	}
@@ -2007,25 +2029,30 @@ catch (Exception e)
     <narrative>
     </narrative>
     <displayx>15</displayx>
-    <displayy>0</displayy>
+    <displayy>105</displayy>
     <displaywidth>60</displaywidth>
     <displayheight>30</displayheight>
     <font family="Segoe UI" size="10" style="Regular" color="000000" />
     <inputs>
-      <input type="text" name="To" narrative="Recipient list" expr="&quot;&quot;" />
+      <input type="text" name="To" narrative="Recipient list" expr="&quot;bp@example.com&quot;" />
       <input type="text" name="CC" narrative="CC list" expr="&quot;&quot;" />
       <input type="text" name="BCC" narrative="BCC list" expr="&quot;&quot;" />
       <input type="text" name="Subject" narrative="Subject" expr="&quot;EWS API test&quot;" />
       <input type="text" name="Message" narrative="Message to send" expr="&quot;EWS API test&quot;" />
       <input type="flag" name="isHTML" narrative="Optional: False is default" expr="False" />
       <input type="text" name="Attachments" narrative="Optional: Attachment list" expr="&quot;&quot;" />
-      <input type="flag" name="SaveSent" narrative="Optional: Save mail in Sent folder? False is default" expr="False" />
+      <input type="flag" name="SaveSent" narrative="Optional: Save mail in Sent folder? False is default" expr="True" />
+      <input type="text" name="mailbox" friendlyname="mailbox" narrative="Optional: Shared mailbox" expr="&quot;doc_rpa@example.com&quot;" />
     </inputs>
     <outputs>
       <output type="flag" name="Success" narrative="Success flag" stage="Success" />
       <output type="text" name="Error_Message" narrative="Error message" stage="Error_Message" />
     </outputs>
     <onsuccess>be893797-5862-4be7-87ff-6c31981f1573</onsuccess>
+    <breakpoint type="0">
+      <condition>
+      </condition>
+    </breakpoint>
     <processid>cfd207ec-87c8-44e7-b2c5-a2e12a6a5c2f</processid>
   </stage>
   <stage stageid="d8ed8e24-acf6-4973-88eb-aa0df5f933c0" name="Success" type="Data">
@@ -2033,7 +2060,7 @@ catch (Exception e)
     <narrative>
     </narrative>
     <displayx>90</displayx>
-    <displayy>0</displayy>
+    <displayy>105</displayy>
     <displaywidth>60</displaywidth>
     <displayheight>30</displayheight>
     <font family="Segoe UI" size="10" style="Regular" color="000000" />
@@ -2047,7 +2074,7 @@ catch (Exception e)
     <narrative>
     </narrative>
     <displayx>150</displayx>
-    <displayy>0</displayy>
+    <displayy>105</displayy>
     <displaywidth>60</displaywidth>
     <displayheight>30</displayheight>
     <font family="Segoe UI" size="10" style="Regular" color="000000" />
@@ -2084,6 +2111,7 @@ catch (Exception e)
       <input type="flag" name="isHTML" narrative="Optional: False is default" stage="isHTML" />
       <input type="text" name="Attachments" narrative="Optional: Attachment list" stage="Attachments" />
       <input type="flag" name="SaveSent" narrative="Optional: Save mail in Sent folder? False is default" stage="SaveSent" />
+      <input type="text" name="mailbox" narrative="Optional: Shared mailbox" stage="mailbox" />
     </inputs>
     <onsuccess>28d209fc-796a-43db-9059-6fe46eb66b00</onsuccess>
   </stage>
@@ -2121,6 +2149,7 @@ catch (Exception e)
       <input type="flag" name="isHTML" expr="[isHTML]" />
       <input type="text" name="Attachments" expr="[Attachments]" />
       <input type="flag" name="SaveSent" expr="[SaveSent]" />
+      <input type="text" name="mailbox" expr="[mailbox]" />
     </inputs>
     <outputs>
       <output type="flag" name="Success" stage="Success" />
@@ -2146,21 +2175,21 @@ try {
 	//To
 	foreach (String r in To.Split(splitAny, StringSplitOptions.RemoveEmptyEntries))
 	{
-		responseMessage.ToRecipients.Add(r);
+		responseMessage.ToRecipients.Add(r.Trim());
 	}
 	//CC
 	foreach (String r in CC.Split(splitAny, StringSplitOptions.RemoveEmptyEntries)) 
 	{
-		responseMessage.CcRecipients.Add(r);
+		responseMessage.CcRecipients.Add(r.Trim());
 	}
 	//BCC
 	foreach (String r in BCC.Split(splitAny, StringSplitOptions.RemoveEmptyEntries)) 
 	{
-		responseMessage.BccRecipients.Add(r);
+		responseMessage.BccRecipients.Add(r.Trim());
 	}
 
 	// We need to save message to add attachments
-    EmailMessage responseMessageDraft = responseMessage.Save();
+    EmailMessage responseMessageDraft = responseMessage.Save(SearchFolderByName(service,"Drafts",mailbox));
 	
 	// Add attachments
 	foreach (String att in Attachments.Split(splitSemicolon, StringSplitOptions.RemoveEmptyEntries)) 
@@ -2181,7 +2210,7 @@ try {
 	//Send
 	if (SaveSent) 
 	{
-		responseMessageDraft.SendAndSaveCopy();
+		responseMessageDraft.SendAndSaveCopy(SearchFolderByName(service,"SentItems",mailbox));
 	} else {
 		responseMessageDraft.Send();
 	}
@@ -2496,6 +2525,7 @@ DestinationFolder usage is in VBO description.</narrative>
     <inputs>
       <input type="text" name="Id" narrative="Message Id to reply to" stage="Id" />
       <input type="text" name="destinationFolderName" narrative="Destination Folder" stage="destinationFolderName" />
+      <input type="text" name="mailbox" narrative="Optional: Shared mailbox" stage="mailbox" />
     </inputs>
     <onsuccess>703050a9-8ffc-472a-9a48-0238c7191c54</onsuccess>
   </stage>
@@ -2527,6 +2557,7 @@ DestinationFolder usage is in VBO description.</narrative>
     <inputs>
       <input type="text" name="Id" expr="[Id]" />
       <input type="text" name="destinationFolderName" expr="[destinationFolderName]" />
+      <input type="text" name="mailbox" expr="[mailbox]" />
     </inputs>
     <outputs>
       <output type="flag" name="Success" stage="Success" />
@@ -2536,7 +2567,7 @@ DestinationFolder usage is in VBO description.</narrative>
     <code><![CDATA[Success = true;
 Error_Message = "";
 try {
-	FolderId destinationFolderId = SearchFolderByName(service,destinationFolderName);
+	FolderId destinationFolderId = SearchFolderByName(service,destinationFolderName,mailbox);
 	Item itemToMove = Item.Bind(service,(ItemId)Id);
 	itemToMove.Move(destinationFolderId);
 }
@@ -2625,6 +2656,7 @@ catch (Exception e)
       <input type="number" name="pageSize" narrative="Result set size. Default is 50." stage="pageSize" />
       <input type="number" name="offset" narrative="Offset from the start of the results. Default is 0" stage="offset" />
       <input type="text" name="folderName" narrative="Optional: Folder name. Default is &quot;Inbox&quot;" stage="folderName" />
+      <input type="text" name="mailbox" narrative="Optional: Shared mailbox" stage="mailbox" />
       <input type="text" name="subjectFilter" narrative="Optional: Subject search filter" stage="subjectFilter" />
       <input type="text" name="senderFilter" narrative="Optional: Sender search filter" stage="senderFilter" />
       <input type="flag" name="unreadOnly" narrative="Optional: Return only Unread mail" stage="unreadOnlyFlag" />
@@ -2664,6 +2696,7 @@ catch (Exception e)
       <input type="number" name="pageSize" expr="[pageSize]" />
       <input type="number" name="offset" expr="[offset]" />
       <input type="text" name="folderName" expr="[folderName]" />
+      <input type="text" name="mailbox" expr="[mailbox]" />
       <input type="text" name="subjectFilter" expr="[subjectFilter]" />
       <input type="text" name="senderFilter" expr="[senderFilter]" />
       <input type="flag" name="unreadOnlyFlag" expr="[unreadOnlyFlag]" />
@@ -2690,7 +2723,7 @@ view.PropertySet = PropertySet.IdOnly;
 FindItemsResults<Item> findResults;
 List<EmailMessage> emails = new List<EmailMessage>();
 
-FolderId SearchFolderId = SearchFolderByName(service,folderName);
+FolderId SearchFolderId = SearchFolderByName(service,folderName,mailbox);
 var searchFilterColl = new SearchFilter.SearchFilterCollection(LogicalOperator.And);
 if (subjectFilter != "") 	searchFilterColl.Add(new SearchFilter.ContainsSubstring(EmailMessageSchema.Subject, subjectFilter, ContainmentMode.Substring, ComparisonMode.Exact));
 if (unreadOnlyFlag) 		searchFilterColl.Add(new SearchFilter.IsEqualTo(EmailMessageSchema.IsRead, false));
@@ -2757,14 +2790,14 @@ if (findResults.TotalCount > 0) {
     <private />
     <alwaysinit />
     <collectioninfo>
-      <field name="Id" type="text" namespace="" description="Message Id" />
-      <field name="Subject" type="text" namespace="" description="Subject" />
-      <field name="FromName" type="text" namespace="" description="From Name" />
-      <field name="FromAddress" type="text" namespace="" description="From Address" />
-      <field name="IsRead" type="flag" namespace="" description="Is Read flag" />
-      <field name="HasAttachments" type="flag" namespace="" description="Has Attachments flag" />
-      <field name="DateTimeSent" type="datetime" namespace="" description="DateTime Sent" />
-      <field name="DateTimeReceived" type="datetime" namespace="" description="DateTime Received" />
+      <field name="Id" type="text" description="Message Id" />
+      <field name="Subject" type="text" description="Subject" />
+      <field name="FromName" type="text" description="From Name" />
+      <field name="FromAddress" type="text" description="From Address" />
+      <field name="IsRead" type="flag" description="Is Read flag" />
+      <field name="HasAttachments" type="flag" description="Has Attachments flag" />
+      <field name="DateTimeSent" type="datetime" description="DateTime Sent" />
+      <field name="DateTimeReceived" type="datetime" description="DateTime Received" />
     </collectioninfo>
   </stage>
   <stage stageid="692353a7-d2c2-46cf-96b5-80a123936595" name="MoreAvailable" type="Data">
@@ -2827,7 +2860,7 @@ if (findResults.TotalCount > 0) {
     <subsheetid>b48f8483-0de2-4ce2-8fe0-3cea3f83da30</subsheetid>
     <narrative>
     </narrative>
-    <displayx>195</displayx>
+    <displayx>255</displayx>
     <displayy>-135</displayy>
     <displaywidth>60</displaywidth>
     <displayheight>30</displayheight>
@@ -3341,7 +3374,7 @@ textOut = System.Uri.EscapeDataString(textIn);]]></code>
     <subsheetid>b48f8483-0de2-4ce2-8fe0-3cea3f83da30</subsheetid>
     <narrative>
     </narrative>
-    <displayx>315</displayx>
+    <displayx>375</displayx>
     <displayy>-135</displayy>
     <displaywidth>60</displaywidth>
     <displayheight>30</displayheight>
@@ -3355,7 +3388,7 @@ textOut = System.Uri.EscapeDataString(textIn);]]></code>
     <subsheetid>b48f8483-0de2-4ce2-8fe0-3cea3f83da30</subsheetid>
     <narrative>
     </narrative>
-    <displayx>255</displayx>
+    <displayx>315</displayx>
     <displayy>-135</displayy>
     <displaywidth>60</displaywidth>
     <displayheight>30</displayheight>
@@ -3369,7 +3402,7 @@ textOut = System.Uri.EscapeDataString(textIn);]]></code>
     <subsheetid>b48f8483-0de2-4ce2-8fe0-3cea3f83da30</subsheetid>
     <narrative>
     </narrative>
-    <displayx>375</displayx>
+    <displayx>435</displayx>
     <displayy>-135</displayy>
     <displaywidth>60</displaywidth>
     <displayheight>30</displayheight>
@@ -3383,7 +3416,7 @@ textOut = System.Uri.EscapeDataString(textIn);]]></code>
     <subsheetid>b48f8483-0de2-4ce2-8fe0-3cea3f83da30</subsheetid>
     <narrative>
     </narrative>
-    <displayx>315</displayx>
+    <displayx>375</displayx>
     <displayy>-90</displayy>
     <displaywidth>60</displaywidth>
     <displayheight>30</displayheight>
@@ -3397,7 +3430,7 @@ textOut = System.Uri.EscapeDataString(textIn);]]></code>
     <subsheetid>b48f8483-0de2-4ce2-8fe0-3cea3f83da30</subsheetid>
     <narrative>
     </narrative>
-    <displayx>375</displayx>
+    <displayx>435</displayx>
     <displayy>-90</displayy>
     <displaywidth>60</displaywidth>
     <displayheight>30</displayheight>
@@ -3418,6 +3451,239 @@ textOut = System.Uri.EscapeDataString(textIn);]]></code>
     <font family="Segoe UI" size="10" style="Regular" color="000000" />
     <datatype>flag</datatype>
     <initialvalue>True</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="6d7e7f3d-e8f1-4149-97d6-3412715c8206" name="mailbox" type="Data">
+    <subsheetid>b48f8483-0de2-4ce2-8fe0-3cea3f83da30</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>195</displayx>
+    <displayy>-135</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="8553b817-afa0-4e2b-8035-c43872ebba66" name="Get Mail Message" type="SubSheet">
+    <subsheetid>edb81c89-db1e-447e-8544-811f39c2499a</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>15</displayx>
+    <displayy>0</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="Id" friendlyname="Id" narrative="Message id" expr="&quot;AAMkADI5YjFiZjQwLTliYmMtNGI5Zi1iYThkLTM1ODg5ZTUzZDFkMgBGAAAAAACWgMifDQjrRrz/YG78hC9fBwCD5JNFdyO+SrWfg7cnaRjAAAAAAAEMAACD5JNFdyO+SrWfg7cnaRjAAAABphpgAAA=&quot;" />
+      <input type="flag" name="textBody" friendlyname="textBody" narrative="Always get body as text. False returns as is." expr="" />
+      <input type="flag" name="getAttachments" friendlyname="getAttachments" narrative="Get attachments in collection." expr="" />
+      <input type="text" name="saveAttachmentsPath" friendlyname="saveAttachmentsPath" narrative="Path to save attachments. Empty string " expr="" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Id" friendlyname="Id" stage="Id" />
+      <output type="text" name="Subject" friendlyname="Subject" stage="Subject" />
+      <output type="text" name="FromName" friendlyname="FromName" stage="FromName" />
+      <output type="text" name="FromAddress" friendlyname="FromAddress" stage="FromAddress" />
+      <output type="text" name="ToRecipients" friendlyname="ToRecipients" stage="ToRecipients" />
+      <output type="text" name="CcRecipients" friendlyname="CcRecipients" stage="" />
+      <output type="text" name="BccRecipients" friendlyname="BccRecipients" stage="" />
+      <output type="flag" name="IsRead" friendlyname="IsRead" stage="" />
+      <output type="flag" name="HasAttachments" friendlyname="HasAttachments" stage="HasAttachments" />
+      <output type="datetime" name="DateTimeSent" friendlyname="DateTimeSent" stage="" />
+      <output type="datetime" name="DateTimeReceived" friendlyname="DateTimeReceived" stage="" />
+      <output type="text" name="Body" friendlyname="Body" stage="Body" />
+      <output type="flag" name="isHTML" friendlyname="isHTML" stage="" />
+      <output type="collection" name="Attachments" friendlyname="Attachments" stage="" />
+    </outputs>
+    <onsuccess>d63be9fd-7fec-485f-a166-846bf4e9b0a3</onsuccess>
+    <processid>6c76e60b-8270-4f91-90d0-d3772af9c368</processid>
+  </stage>
+  <stage stageid="918ba158-1e18-4b0f-b858-bae4a1442479" name="Id" type="Data">
+    <subsheetid>edb81c89-db1e-447e-8544-811f39c2499a</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>90</displayx>
+    <displayy>0</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="6ecb4d2b-936d-402b-b1bc-f8e4a58b4dda" name="Subject" type="Data">
+    <subsheetid>edb81c89-db1e-447e-8544-811f39c2499a</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>330</displayx>
+    <displayy>0</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="f10ba781-ccee-4353-9445-733997a6b280" name="FromName" type="Data">
+    <subsheetid>edb81c89-db1e-447e-8544-811f39c2499a</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>150</displayx>
+    <displayy>0</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="10e33386-113d-4962-9659-00c4244eb391" name="FromAddress" type="Data">
+    <subsheetid>edb81c89-db1e-447e-8544-811f39c2499a</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>210</displayx>
+    <displayy>0</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="c0a18d1a-468d-4d95-bf1d-a18f7af95a2a" name="ToRecipients" type="Data">
+    <subsheetid>edb81c89-db1e-447e-8544-811f39c2499a</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>270</displayx>
+    <displayy>0</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="90354c15-0838-411f-b6bf-c06009e70b36" name="Body" type="Data">
+    <subsheetid>edb81c89-db1e-447e-8544-811f39c2499a</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>390</displayx>
+    <displayy>0</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="6698ee98-80ae-4c28-97a4-d4d93327d0f3" name="HasAttachments" type="Data">
+    <subsheetid>edb81c89-db1e-447e-8544-811f39c2499a</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>450</displayx>
+    <displayy>0</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>flag</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="d63be9fd-7fec-485f-a166-846bf4e9b0a3" name="Reply Mail" type="SubSheet">
+    <subsheetid>edb81c89-db1e-447e-8544-811f39c2499a</subsheetid>
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>15</displayx>
+    <displayy>45</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="Id" friendlyname="Id" narrative="Message Id to reply to" expr="&quot;AAMkADI5YjFiZjQwLTliYmMtNGI5Zi1iYThkLTM1ODg5ZTUzZDFkMgBGAAAAAACWgMifDQjrRrz/YG78hC9fBwCD5JNFdyO+SrWfg7cnaRjAAAAAAAEMAACD5JNFdyO+SrWfg7cnaRjAAAABphpgAAA=&quot;" />
+      <input type="flag" name="replyToAll" friendlyname="replyToAll" narrative="Reply to all" expr="" />
+      <input type="text" name="ToRecipients" friendlyname="ToRecipients" narrative="To recipients to add" expr="" />
+      <input type="text" name="CcRecipients" friendlyname="CcRecipients" narrative="Cc recipients to add" expr="" />
+      <input type="text" name="BccRecipients" friendlyname="BccRecipients" narrative="Bcc recipients to add" expr="" />
+      <input type="text" name="resposeMessage" friendlyname="resposeMessage" narrative="Message to send" expr="&quot;worxx22 test xxx&quot;" />
+      <input type="flag" name="isHTML" friendlyname="isHTML" narrative="Optional: False is default" expr="" />
+      <input type="text" name="Attachments" friendlyname="Attachments" narrative="Optional: Attachment list" expr="" />
+      <input type="flag" name="SaveSent" friendlyname="SaveSent" narrative="Optional: Save mail in Sent folder? False is default" expr="True" />
+      <input type="flag" name="KeepOriginalMessage" friendlyname="KeepOriginalMessage" narrative="Optional: Keep original message?" expr="True" />
+      <input type="text" name="mailbox" friendlyname="mailbox" narrative="Optional: Shared mailbox" expr="" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="Success" friendlyname="Success" narrative="Success flag" stage="" />
+      <output type="text" name="Error_Message" friendlyname="Error_Message" narrative="Error message" stage="" />
+    </outputs>
+    <onsuccess>a36e0bbc-ddff-463e-8d3c-23efcc72ce12</onsuccess>
+    <processid>41708016-914c-4bc9-aba4-3776db6744d5</processid>
+  </stage>
+  <stage stageid="ddd0ad26-6ed8-48b1-8618-4af784d4828a" name="mailbox" type="Data">
+    <subsheetid>a68c4138-c645-46e9-9732-b716123b0320</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>135</displayx>
+    <displayy>-135</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="fd2785b6-be8f-4abb-bb96-aee696938fa2" name="mailbox" type="Data">
+    <subsheetid>cfd207ec-87c8-44e7-b2c5-a2e12a6a5c2f</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>225</displayx>
+    <displayy>-135</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="4a28b8e7-12e2-48d1-b33c-107dc24db716" name="mailbox" type="Data">
+    <subsheetid>41708016-914c-4bc9-aba4-3776db6744d5</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>375</displayx>
+    <displayy>-135</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="4180761d-93be-4da2-a3b4-6c20bf80cbb7" name="mailbox" type="Data">
+    <subsheetid>0cc882a5-1042-4931-90e4-99e354e4834d</subsheetid>
+    <narrative>
+    </narrative>
+    <displayx>315</displayx>
+    <displayy>-135</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
     <private />
     <alwaysinit />
   </stage>
